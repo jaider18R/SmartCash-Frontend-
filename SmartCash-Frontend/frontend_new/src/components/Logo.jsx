@@ -1,7 +1,6 @@
 import './Logo.css'
 
-// Se usa en Home, AuthLayout, Dashboard y Transaction — por eso es un
-// componente reutilizable y no algo pegado a una sola página.
+
 function Logo() {
   return (
     <div className="logo">
