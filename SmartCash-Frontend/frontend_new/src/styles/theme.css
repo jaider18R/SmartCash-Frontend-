@@ -1,0 +1,18 @@
+/* Variables de color (design tokens) de SmartCash.
+   Movidas tal cual desde el bloque :root que estaba al inicio de App.css. */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --blue: #1769ff;
+  --blue-light: #4d8dff;
+  --dark: #07111f;
+  --dark-2: #0d1a2d;
+  --purple: #7c4dff;
+  --pink: #f4b8ff;
+  --yellow: #ffd166;
+  --green: #35d07f;
+  --white: #f8fbff;
+  --muted: #9eacc2;
+  --danger: #ff6b7a;
+}

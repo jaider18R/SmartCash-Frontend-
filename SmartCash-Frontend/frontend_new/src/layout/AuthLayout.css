@@ -1,0 +1,107 @@
+/* Nota: igual que con PiggyBank, se revisó todo App.css y las clases
+   "auth-decoration", "decoration-one", "decoration-two" y "auth-brand" que
+   usa este componente en su JSX nunca tuvieron estilos definidos en el
+   proyecto original. No se inventaron estilos nuevos para no cambiar el
+   resultado visual actual. */
+
+.auth-page {
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 20% 30%,
+      rgba(23,105,255,.18),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(124,77,255,.15),
+      transparent 25%
+    ),
+    var(--dark);
+
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-wrapper {
+  width: min(1100px, 90%);
+
+  min-height: 100vh;
+
+  margin: auto;
+
+  display: grid;
+  grid-template-columns: 1fr 440px;
+
+  align-items: center;
+  gap: 80px;
+}
+
+.auth-message h1 {
+  margin-top: 55px;
+
+  font-size: 55px;
+  line-height: 1;
+
+  letter-spacing: -3px;
+}
+
+.auth-message h1 span {
+  color: #679dff;
+}
+
+.auth-card {
+  padding: 38px;
+
+  border-radius: 25px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.08),
+      rgba(255,255,255,.035)
+    );
+
+  border: 1px solid rgba(255,255,255,.09);
+
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.3);
+
+  backdrop-filter: blur(20px);
+}
+
+.auth-card-header {
+  margin-bottom: 30px;
+}
+
+.auth-card h2 {
+  font-size: 30px;
+  margin: 0 0 8px;
+}
+
+.auth-card p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 850px) {
+  .auth-wrapper {
+    grid-template-columns: 1fr;
+    padding: 100px 0 50px;
+    gap: 35px;
+  }
+
+  .auth-message {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .auth-card {
+    padding: 25px;
+  }
+}
