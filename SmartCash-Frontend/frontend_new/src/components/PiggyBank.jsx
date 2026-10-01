@@ -1,16 +1,5 @@
 import './PiggyBank.css'
 
-// Ilustración de la alcancía hecha con divs + CSS (sin SVG ni imágenes).
-// Se usa únicamente en Home, pero se deja como componente aparte porque es
-// una pieza visual independiente y bastante grande.
-//
-// Nota: las clases piggy-body, piggy-ear, piggy-eye, piggy-snout,
-// snout-hole, piggy-smile, piggy-slot, piggy-tail, piggy-leg, piggy-ring y
-// coin-four no tenían estilos definidos en el proyecto original (se revisó
-// todo App.css y no existen). No se agregaron estilos nuevos para no
-// cambiar el resultado visual que el profesor ya vio; si en algún momento
-// quieren dibujar el cuerpo completo del cerdito, esas clases son el punto
-// de partida.
 function PiggyBank() {
   return (
     <div className="piggy-container">

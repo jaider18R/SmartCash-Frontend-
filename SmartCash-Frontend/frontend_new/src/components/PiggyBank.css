@@ -107,10 +107,7 @@
   animation-delay: 1.4s;
 }
 
-/* La animación @keyframes floatCoin está en styles/shared.css porque
-   Dashboard.jsx también la usa para sus monedas flotantes. */
 
-/* ================= RESPONSIVE ================= */
 
 @media (max-width: 850px) {
   .piggy-container {
