@@ -1,0 +1,119 @@
+.piggy-container {
+  height: 500px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+}
+
+.piggy {
+  width: min(430px, 90%);
+  filter:
+    drop-shadow(
+      0 30px 35px rgba(0,0,0,.35)
+    );
+  position: relative;
+  z-index: 2;
+}
+
+.piggy-glow {
+  position: absolute;
+
+  width: 360px;
+  height: 360px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(124,77,255,.25),
+      transparent 65%
+    );
+
+  filter: blur(15px);
+}
+
+.piggy-label {
+  position: absolute;
+  z-index: 3;
+
+  top: 52%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  color: #422e50;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.piggy-label strong {
+  font-size: 30px;
+}
+
+.coin {
+  position: absolute;
+
+  width: 45px;
+  height: 45px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      #fff6b0,
+      #ffd166
+    );
+
+  color: #806019;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 900;
+
+  border: 2px solid #f7d86d;
+
+  z-index: 5;
+
+  animation: floatCoin 4s ease-in-out infinite;
+}
+
+.coin-one {
+  top: 110px;
+  left: 15%;
+}
+
+.coin-two {
+  top: 30%;
+  right: 8%;
+  animation-delay: .8s;
+}
+
+.coin-three {
+  bottom: 100px;
+  left: 10%;
+  animation-delay: 1.4s;
+}
+
+/* La animación @keyframes floatCoin está en styles/shared.css porque
+   Dashboard.jsx también la usa para sus monedas flotantes. */
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 850px) {
+  .piggy-container {
+    height: 360px;
+  }
+}
