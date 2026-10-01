@@ -1,0 +1,70 @@
+/* Reset y estilos base.
+   Primera mitad: viene del antiguo src/index.css (sin cambios).
+   Segunda mitad: viene del bloque de reset que estaba al inicio de App.css. */
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+body,
+button,
+input,
+select {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+::selection {
+  background: #1769ff;
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #07111f;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #263b5e;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #365987;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  min-height: 100vh;
+  background: var(--dark);
+  color: var(--white);
+  font-family: 'Manrope', sans-serif;
+}

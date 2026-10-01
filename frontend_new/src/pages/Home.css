@@ -1,0 +1,151 @@
+/* Nota: "background-glow", "glow-one" y "glow-two" (usadas en el JSX de
+   esta página) tampoco tenían estilos definidos en el App.css original.
+   Se deja documentado igual que los otros casos encontrados. */
+
+.home {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 75% 45%,
+      rgba(23, 105, 255, .18),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(124, 77, 255, .13),
+      transparent 25%
+    ),
+    var(--dark);
+}
+
+.navbar {
+  height: 84px;
+  padding: 0 6vw;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: relative;
+  z-index: 10;
+}
+
+.nav-links {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-button {
+  border: none;
+  background: transparent;
+  color: #c8d2e4;
+  padding: 11px 18px;
+  border-radius: 12px;
+}
+
+.nav-button:hover {
+  color: white;
+  background: rgba(255,255,255,.05);
+}
+
+.primary-small {
+  background: rgba(23, 105, 255, .16);
+  color: #8eb5ff;
+}
+
+.hero {
+  width: min(1200px, 88%);
+  margin: auto;
+
+  min-height: calc(100vh - 84px);
+
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  align-items: center;
+  gap: 30px;
+
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content {
+  max-width: 650px;
+}
+
+.eyebrow {
+  color: #78a8ff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.eyebrow span {
+  color: var(--green);
+  margin-right: 7px;
+}
+
+.hero h1 {
+  margin: 22px 0 20px;
+
+  font-size: clamp(46px, 6vw, 78px);
+  line-height: .98;
+  letter-spacing: -4px;
+}
+
+.hero h1 span {
+  color: #6ea0ff;
+}
+
+.hero-description {
+  color: var(--muted);
+  max-width: 560px;
+
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 13px;
+  margin-top: 32px;
+}
+
+.hero-info {
+  margin-top: 25px;
+  color: #7f8ca3;
+  font-size: 12px;
+}
+
+.hero-info span {
+  margin-right: 8px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 850px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 50px 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    padding: 0 20px;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .hero h1 {
+    font-size: 47px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+}

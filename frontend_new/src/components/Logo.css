@@ -1,0 +1,51 @@
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-coin {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #fff3a6,
+      var(--yellow) 45%,
+      #d79d2e
+    );
+
+  color: #61430b;
+  font-weight: 800;
+  font-size: 20px;
+
+  border: 3px solid #f9df7d;
+
+  box-shadow:
+    0 0 25px rgba(255, 209, 102, .25),
+    inset 0 2px 4px rgba(255,255,255,.6);
+}
+
+.logo-text {
+  display: flex;
+  font-size: 23px;
+  letter-spacing: -1px;
+}
+
+.logo-text strong {
+  color: white;
+}
+
+.logo-text span {
+  color: var(--blue-light);
+}
+
+.logo-flame {
+  font-size: 18px;
+  margin-left: 2px;
+}
