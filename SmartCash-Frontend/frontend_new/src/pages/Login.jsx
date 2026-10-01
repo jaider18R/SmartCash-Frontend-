@@ -4,9 +4,7 @@ import { loginRequest } from '../services/authService'
 import AuthLayout from '../layout/AuthLayout'
 import Input from '../components/Input'
 
-// No tiene Login.css propio: todo lo que usa (auth-page, auth-card,
-// input-group, main-button, error-message...) ya está en
-// layout/AuthLayout.css y styles/shared.css.
+
 function Login({ onBack, onLoginSuccess }) {
   const { login } = useAuth()
 
@@ -24,8 +22,7 @@ function Login({ onBack, onLoginSuccess }) {
     try {
       const data = await loginRequest(correo, password)
 
-      // Guarda el token y el correo del usuario en el contexto de
-      // autenticación (que a su vez los persiste en localStorage).
+
       login(data.token, { correo })
 
       onLoginSuccess()

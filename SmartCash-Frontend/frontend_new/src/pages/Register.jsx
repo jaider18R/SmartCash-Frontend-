@@ -3,7 +3,7 @@ import { registroRequest } from '../services/authService'
 import AuthLayout from '../layout/AuthLayout'
 import Input from '../components/Input'
 
-// Tampoco tiene Register.css propio, por la misma razón que Login.
+
 function Register({ onBack, onRegistered }) {
 
   const [nombre, setNombre] = useState('')

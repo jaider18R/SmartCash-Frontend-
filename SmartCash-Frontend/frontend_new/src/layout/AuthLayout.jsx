@@ -1,11 +1,7 @@
 import Logo from '../components/Logo'
 import './AuthLayout.css'
 
-// Envoltorio visual compartido por Login y Register: el botón de "volver",
-// la marca a la izquierda y la tarjeta del formulario a la derecha.
-// Es lo más parecido a un "layout" real que existe en este proyecto (por
-// eso vive en layout/ y no en pages/): no es una pantalla en sí misma,
-// es el marco que usan dos pantallas distintas.
+
 function AuthLayout({ title, subtitle, onBack, children }) {
 
   return (

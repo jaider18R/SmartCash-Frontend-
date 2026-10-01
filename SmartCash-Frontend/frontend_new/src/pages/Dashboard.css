@@ -1,5 +1,4 @@
-/* .dashboard-page y .dashboard-header están en styles/shared.css porque
-   Transaction.jsx también las usa. Todo lo demás de esta página vive aquí. */
+
 
 .dashboard-user {
   display: flex;

@@ -1,6 +1,4 @@
-/* .transaction-page y .dashboard-header (reutilizada aquí) están en
-   styles/shared.css. .mini-icon y .input-group también están en
-   styles/shared.css porque esta página los reutiliza tal cual. */
+
 
 .transaction-wrapper {
   width: min(1100px, 90%);
@@ -121,10 +119,7 @@
   font-size: 22px;
 }
 
-/* Estas dos reglas pisan a propósito el estilo base de .amount-input input
-   que viene de styles/shared.css (mismo comportamiento que en el proyecto
-   original: ahí también estaba la regla general primero y esta más
-   específica después). */
+
 .amount-input input {
   border: none;
   background: transparent;

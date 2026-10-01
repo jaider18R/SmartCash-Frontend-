@@ -2,10 +2,7 @@ import { useAuth } from '../context/AuthContext'
 import Logo from '../components/Logo'
 import './Dashboard.css'
 
-// Antes recibía "user" y "token" como props desde App.jsx. Ahora "user" se
-// lee del AuthContext directamente (evita pasar props de más entre
-// componentes). El token no se usa dentro de este componente, así que
-// tampoco hace falta traerlo.
+
 function Dashboard({ onTransaction, onLogout }) {
 
   const { user } = useAuth()

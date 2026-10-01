@@ -1,6 +1,4 @@
-/* Nota: "background-glow", "glow-one" y "glow-two" (usadas en el JSX de
-   esta página) tampoco tenían estilos definidos en el App.css original.
-   Se deja documentado igual que los otros casos encontrados. */
+
 
 .home {
   min-height: 100vh;

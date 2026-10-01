@@ -1,8 +1,4 @@
-/* Nota: igual que con PiggyBank, se revisó todo App.css y las clases
-   "auth-decoration", "decoration-one", "decoration-two" y "auth-brand" que
-   usa este componente en su JSX nunca tuvieron estilos definidos en el
-   proyecto original. No se inventaron estilos nuevos para no cambiar el
-   resultado visual actual. */
+
 
 .auth-page {
   min-height: 100vh;
@@ -86,7 +82,7 @@
   line-height: 1.6;
 }
 
-/* ================= RESPONSIVE ================= */
+
 
 @media (max-width: 850px) {
   .auth-wrapper {
