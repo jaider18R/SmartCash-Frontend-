@@ -41,3 +41,39 @@ export async function registroRequest(nombre, correo, password) {
 
   return data
 }
+
+export async function solicitarRecuperacionRequest(correo) {
+  const response = await fetch(`${AUTH_BASE}/recuperar-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ correo }),
+  })
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.error || 'No fue posible procesar la solicitud de recuperación')
+  }
+
+  return data // { mensaje }
+}
+
+export async function restablecerPasswordRequest(token, nuevaPassword) {
+  const response = await fetch(`${AUTH_BASE}/restablecer-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ token, nuevaPassword }),
+  })
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(data.error || 'No fue posible actualizar la contraseña')
+  }
+
+  return data // { mensaje }
+}

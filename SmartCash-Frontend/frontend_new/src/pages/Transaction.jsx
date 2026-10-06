@@ -59,6 +59,10 @@ function Transaction({ onBack, onSaved }) {
       setMonto('')
       setComercio('')
 
+      setTimeout(() => {
+        onSaved?.()
+      }, 1200)
+
     } catch (error) {
 
       setError(error.message)

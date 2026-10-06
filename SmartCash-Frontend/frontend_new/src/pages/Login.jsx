@@ -7,7 +7,7 @@ import Input from '../components/Input'
 // No tiene Login.css propio: todo lo que usa (auth-page, auth-card,
 // input-group, main-button, error-message...) ya está en
 // layout/AuthLayout.css y styles/shared.css.
-function Login({ onBack, onLoginSuccess }) {
+function Login({ onBack, onLoginSuccess, onForgotPassword }) {
   const { login } = useAuth()
 
   const [correo, setCorreo] = useState('')
@@ -60,6 +60,16 @@ function Login({ onBack, onLoginSuccess }) {
           onChange={setPassword}
           placeholder="••••••••"
         />
+
+        <div className="auth-forgot-row">
+          <button
+            type="button"
+            className="auth-link-button"
+            onClick={onForgotPassword}
+          >
+            ¿Olvidaste tu contraseña?
+          </button>
+        </div>
 
         {error && (
           <div className="error-message">
