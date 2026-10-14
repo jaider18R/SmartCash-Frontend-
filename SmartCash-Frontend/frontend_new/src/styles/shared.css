@@ -253,3 +253,196 @@
     padding: 0 20px;
   }
 }
+
+/* ================= FLUJO DE RECUPERACIÓN DE CONTRASEÑA ================= */
+
+/* Enlace de recuperación en Login */
+.auth-forgot-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -6px;
+  margin-bottom: 18px;
+}
+
+.auth-link-button {
+  background: none;
+  border: none;
+  color: var(--blue-light);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color .2s ease, text-decoration .2s ease;
+  font-family: inherit;
+}
+
+.auth-link-button:hover {
+  color: #8eb5ff;
+  text-decoration: underline;
+}
+
+.auth-footer-text {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.auth-footer-text .auth-link-button {
+  margin-left: 6px;
+}
+
+/* Tarjetas de estado / éxito en el flujo */
+.auth-success-card {
+  text-align: center;
+  padding: 8px 0;
+}
+
+.auth-icon-badge {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  border-radius: 20px;
+  background: rgba(23,105,255,.15);
+  border: 1px solid rgba(23,105,255,.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.auth-icon-badge.success {
+  background: rgba(53,208,127,.15);
+  border-color: rgba(53,208,127,.3);
+  color: var(--green);
+}
+
+.auth-success-card h3 {
+  font-size: 22px;
+  margin: 0 0 10px;
+  color: var(--white);
+}
+
+.auth-instruction-text {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+.auth-instruction-text strong {
+  color: var(--white);
+  word-break: break-all;
+}
+
+.auth-notice-box {
+  background: rgba(23,105,255,.1);
+  border: 1px solid rgba(23,105,255,.2);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #9ec2ff;
+  text-align: left;
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth-notice-box.warning {
+  background: rgba(255,209,102,.1);
+  border-color: rgba(255,209,102,.25);
+  color: #ffd166;
+}
+
+/* Indicador visual de seguridad para nueva contraseña */
+.password-security {
+  margin-top: -4px;
+  margin-bottom: 18px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.security-meter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: #b7c4d8;
+  font-weight: 700;
+}
+
+.security-level-tag {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  font-weight: 800;
+}
+
+.security-bars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.security-bar-segment {
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255,255,255,.1);
+  transition: background-color .3s ease;
+}
+
+.security-bar-segment.active-weak {
+  background: var(--danger);
+}
+
+.security-bar-segment.active-medium {
+  background: var(--yellow);
+}
+
+.security-bar-segment.active-strong {
+  background: var(--green);
+}
+
+.security-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.security-check-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  transition: color .2s ease;
+}
+
+.security-check-item.valid {
+  color: #9cf0be;
+}
+
+.security-check-item .check-icon {
+  font-size: 13px;
+  font-weight: 800;
+  width: 14px;
+  display: inline-block;
+}
+
+.redirect-countdown {
+  font-size: 13px;
+  color: #8eb5ff;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}

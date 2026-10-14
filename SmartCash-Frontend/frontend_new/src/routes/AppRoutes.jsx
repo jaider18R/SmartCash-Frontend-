@@ -1,25 +1,39 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import Home from '../pages/Home'
 import Login from '../pages/Login'
 import Register from '../pages/Register'
+import ForgotPassword from '../pages/ForgotPassword'
+import ResetPassword from '../pages/ResetPassword'
 import Dashboard from '../pages/Dashboard'
 import Transaction from '../pages/Transaction'
 
 // El proyecto no usa react-router (no estaba instalado ni se pidió
-// agregarlo). Esto centraliza exactamente la misma lógica de navegación
-// por estado que antes estaba mezclada dentro de App.jsx: qué pantalla se
-// muestra según si hay sesión (token) o no, y la función goTo() para
-// cambiar de pantalla.
+// agregarlo). Esto centraliza la lógica de navegación por estado:
+// qué pantalla se muestra según si hay sesión (token) o no,
+// y si el usuario ingresó por un enlace de recuperación con token en la URL.
 function AppRoutes() {
   const { token, logout } = useAuth()
-  const [screen, setScreen] = useState('home')
 
-  useEffect(() => {
-    if (token) {
-      setScreen('dashboard')
+  // Extraemos token de recuperación de la URL si el usuario pulsó el enlace del correo
+  const [resetToken, setResetToken] = useState(() => {
+    if (typeof window === 'undefined') return ''
+    const params = new URLSearchParams(window.location.search)
+    return params.get('token') || ''
+  })
+
+  const [screen, setScreen] = useState(() => {
+    if (token) return 'dashboard'
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const hasToken = params.has('token')
+      const path = window.location.pathname.toLowerCase()
+      if (hasToken || path.includes('reset-password') || path.includes('restablecer-password')) {
+        return 'reset-password'
+      }
     }
-  }, [])
+    return 'home'
+  })
 
   function goTo(screenName) {
     setScreen(screenName)
@@ -28,6 +42,15 @@ function AppRoutes() {
   function handleLogout() {
     logout()
     setScreen('home')
+  }
+
+  function handleResetSuccess() {
+    // Limpia el token de la barra de direcciones del navegador
+    if (typeof window !== 'undefined' && window.history?.replaceState) {
+      window.history.replaceState({}, document.title, window.location.pathname)
+    }
+    setResetToken('')
+    setScreen('login')
   }
 
   if (!token) {
@@ -44,6 +67,7 @@ function AppRoutes() {
           <Login
             onBack={() => goTo('home')}
             onLoginSuccess={() => goTo('dashboard')}
+            onForgotPassword={() => goTo('forgot-password')}
           />
         )}
 
@@ -51,6 +75,22 @@ function AppRoutes() {
           <Register
             onBack={() => goTo('home')}
             onRegistered={() => goTo('login')}
+          />
+        )}
+
+        {screen === 'forgot-password' && (
+          <ForgotPassword
+            onBack={() => goTo('login')}
+            onGoToLogin={() => goTo('login')}
+          />
+        )}
+
+        {screen === 'reset-password' && (
+          <ResetPassword
+            token={resetToken}
+            onBack={() => goTo('login')}
+            onResetSuccess={handleResetSuccess}
+            onRequestNewLink={() => goTo('forgot-password')}
           />
         )}
       </>
