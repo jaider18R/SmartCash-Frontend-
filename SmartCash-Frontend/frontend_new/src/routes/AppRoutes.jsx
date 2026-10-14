@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import Home from '../pages/Home'
 import Login from '../pages/Login'
@@ -7,6 +7,9 @@ import ForgotPassword from '../pages/ForgotPassword'
 import ResetPassword from '../pages/ResetPassword'
 import Dashboard from '../pages/Dashboard'
 import Transaction from '../pages/Transaction'
+import Transactions from '../pages/Transactions'
+import Budgets from '../pages/Budgets'
+import Goals from '../pages/Goals'
 
 // El proyecto no usa react-router (no estaba instalado ni se pidió
 // agregarlo). Esto centraliza la lógica de navegación por estado:
@@ -34,6 +37,13 @@ function AppRoutes() {
     }
     return 'home'
   })
+
+  // Si el backend responde 401/403 (token vencido) se cierra la sesión.
+  useEffect(() => {
+    const alExpirar = () => { logout(); setScreen('login') }
+    window.addEventListener('smartcash:sesion-expirada', alExpirar)
+    return () => window.removeEventListener('smartcash:sesion-expirada', alExpirar)
+  }, [logout])
 
   function goTo(screenName) {
     setScreen(screenName)
@@ -102,6 +112,9 @@ function AppRoutes() {
       {screen === 'dashboard' && (
         <Dashboard
           onTransaction={() => goTo('transaction')}
+          onHistory={() => goTo('history')}
+          onBudgets={() => goTo('budgets')}
+          onGoals={() => goTo('goals')}
           onLogout={handleLogout}
         />
       )}
@@ -112,6 +125,9 @@ function AppRoutes() {
           onSaved={() => goTo('dashboard')}
         />
       )}
+      {screen === 'history' && <Transactions onBack={() => goTo('dashboard')} />}
+      {screen === 'budgets' && <Budgets onBack={() => goTo('dashboard')} />}
+      {screen === 'goals' && <Goals onBack={() => goTo('dashboard')} />}
     </>
   )
 }

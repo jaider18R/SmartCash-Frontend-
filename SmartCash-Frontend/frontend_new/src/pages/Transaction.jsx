@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { registrarTransaccion } from '../services/transaccionesService'
+import { useCategorias } from '../hooks/useCategorias'
 import { getUserIdFromToken } from '../utils/helpers'
 import Logo from '../components/Logo'
 import './Transaction.css'
@@ -10,6 +11,8 @@ import './Transaction.css'
 function Transaction({ onBack, onSaved }) {
 
   const { token } = useAuth()
+  const { porId } = useCategorias()
+  const [resultado, setResultado] = useState(null)
 
   const [monto, setMonto] = useState('')
   const [fecha, setFecha] = useState(
@@ -44,7 +47,7 @@ function Transaction({ onBack, onSaved }) {
     }
 
     try {
-      await registrarTransaccion(token, {
+      const creada = await registrarTransaccion(token, {
         idUsuario,
         monto: Number(monto),
         fecha,
@@ -52,16 +55,12 @@ function Transaction({ onBack, onSaved }) {
         tipoMovimiento,
       })
 
-      setSuccess(
-        `Movimiento registrado correctamente.`
-      )
+      setResultado(creada)
+      setSuccess('Movimiento registrado correctamente.')
 
       setMonto('')
       setComercio('')
 
-      setTimeout(() => {
-        onSaved?.()
-      }, 1200)
 
     } catch (error) {
 
@@ -239,6 +238,15 @@ function Transaction({ onBack, onSaved }) {
             {success && (
               <div className="success-message">
                 {success}
+                {resultado?.idCategoria && (
+                  <div>
+                    Categoría asignada por la IA: <strong>{porId[resultado.idCategoria]?.nombre || 'categoría no listada'}</strong>
+                    {resultado.confianzaCategorizacion != null &&
+                      ` (confianza ${(resultado.confianzaCategorizacion * 100).toFixed(0)}%)`}.
+                    {' '}Si no es correcta, puedes corregirla en el Historial.
+                  </div>
+                )}
+                <button type="button" className="ghost-button" onClick={() => onSaved?.()}>Volver al dashboard</button>
               </div>
             )}
 

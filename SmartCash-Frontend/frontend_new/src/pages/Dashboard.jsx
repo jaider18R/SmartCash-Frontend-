@@ -3,7 +3,7 @@ import Logo from '../components/Logo'
 import './Dashboard.css'
 
 
-function Dashboard({ onTransaction, onLogout }) {
+function Dashboard({ onTransaction, onHistory, onBudgets, onGoals, onLogout }) {
 
   const { user } = useAuth()
   const correo = user?.correo || 'Usuario'
@@ -76,6 +76,12 @@ function Dashboard({ onTransaction, onLogout }) {
             </div>
           </div>
 
+        </div>
+
+        <div className="nav-cards">
+          <button className="nav-card" onClick={onHistory}><strong>Historial</strong><span className="muted">Filtra, edita y elimina tus movimientos</span></button>
+          <button className="nav-card" onClick={onBudgets}><strong>Presupuestos</strong><span className="muted">Límites mensuales por categoría</span></button>
+          <button className="nav-card" onClick={onGoals}><strong>Metas de ahorro</strong><span className="muted">Abona, retira y mira tu progreso</span></button>
         </div>
 
         <div className="dashboard-grid">

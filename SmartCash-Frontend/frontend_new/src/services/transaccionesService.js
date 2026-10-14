@@ -1,27 +1,26 @@
-// Llamada HTTP al microservicio transacciones-service (puerto 8082 detrás
-// del proxy de Vite). Antes estaba escrita directamente dentro de
-// Transaction.jsx; misma ruta, mismo body, mismo header — solo se movió.
-export async function registrarTransaccion(token, { idUsuario, monto, fecha, comercio, tipoMovimiento }) {
-  const response = await fetch('/api/transacciones', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({
-      idUsuario,
-      monto,
-      fecha,
-      comercio,
-      tipoMovimiento,
-    }),
-  })
+import { API } from '../config/env'
+import { apiFetch } from './http'
 
-  const data = await response.json()
+// POST /transacciones  { idUsuario, monto, fecha, comercio, tipoMovimiento }
+// Respuesta: { idTransaccion, idCategoria, confianzaCategorizacion, ... }
+export function registrarTransaccion(_token, datos) {
+  return apiFetch(API.TRANSACCIONES, { method: 'POST', body: datos })
+}
 
-  if (!response.ok) {
-    throw new Error(data.error || 'No fue posible registrar la transacción')
-  }
+// GET /transacciones?tipo&categoriaId&desde&hasta&buscar (filtra el backend)
+export function listarTransacciones(filtros = {}) {
+  const params = new URLSearchParams()
+  Object.entries(filtros).forEach(([k, v]) => { if (v) params.set(k, v) })
+  const qs = params.toString()
+  return apiFetch(qs ? `${API.TRANSACCIONES}?${qs}` : API.TRANSACCIONES)
+}
 
-  return data
+// PUT /transacciones/{id}  { monto, fecha, comercio, tipoMovimiento, idCategoria? }
+export function actualizarTransaccion(id, datos) {
+  return apiFetch(`${API.TRANSACCIONES}/${id}`, { method: 'PUT', body: datos })
+}
+
+// DELETE /transacciones/{id} -> 204
+export function eliminarTransaccion(id) {
+  return apiFetch(`${API.TRANSACCIONES}/${id}`, { method: 'DELETE' })
 }
