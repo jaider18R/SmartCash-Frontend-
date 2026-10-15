@@ -63,6 +63,11 @@ export default function Budgets({ onBack }) {
       {error && <div className="error-message">{error}</div>}
       {ok && <div className="success-message">{ok}</div>}
       {cargando && <p className="muted">Cargando...</p>}
+      {!cargando && (
+        <div style={{ marginBottom: '1rem', color: '#64748b', fontSize: '0.9rem' }}>
+          Vigencia del periodo: <strong>{new Date(anio, mes - 1, 1).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' })}</strong> al <strong>{new Date(anio, mes, 0).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' })}</strong>
+        </div>
+      )}
       {!cargando && !delMes.length && <p className="muted">No hay presupuestos para este mes.</p>}
 
       <div className="list">
@@ -70,10 +75,17 @@ export default function Budgets({ onBack }) {
           const gastado = gastos[p.idCategoria] || 0
           const pct = (gastado / Number(p.montoLimite)) * 100
           const nivel = nivelPresupuesto(pct)
+          const inicio = p.fechaInicio || new Date(p.anio, p.mes - 1, 1).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' })
+          const fin = p.fechaFin || new Date(p.anio, p.mes, 0).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' })
           return (
             <div className="panel" key={p.idPresupuesto}>
               <div className="row-item" style={{ padding: 0, background: 'none' }}>
-                <strong>{p.nombreCategoria}</strong>
+                <div>
+                  <strong>{p.nombreCategoria}</strong>
+                  <div style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                    Periodo: {inicio} al {fin}
+                  </div>
+                </div>
                 <span>{formatCOP(gastado)} de {formatCOP(p.montoLimite)} ({pct.toFixed(0)}%)</span>
               </div>
               <div className={`progress nivel-${nivel}`}><span style={{ width: `${Math.min(pct, 100)}%` }} /></div>
