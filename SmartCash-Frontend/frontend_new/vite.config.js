@@ -23,6 +23,7 @@ export default defineConfig(({ mode }) => {
         '/api/categorias': { target: tx, changeOrigin: true },
         '/api/presupuestos': { target: tx, changeOrigin: true },
         '/api/metas-ahorro': { target: tx, changeOrigin: true },
+        '/api/analitica': { target: env.VITE_PROXY_ANALITICA || 'http://localhost:8084', changeOrigin: true },
       },
     },
     test: { environment: 'node', include: ['src/**/*.test.js'] },

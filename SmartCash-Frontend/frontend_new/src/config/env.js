@@ -6,4 +6,6 @@ export const API = {
   CATEGORIAS: '/api/categorias',
   PRESUPUESTOS: '/api/presupuestos',
   METAS: '/api/metas-ahorro',
+  ANALITICA: '/api/analitica',
 }
+

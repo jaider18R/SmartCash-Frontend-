@@ -10,6 +10,8 @@ import Transaction from '../pages/Transaction'
 import Transactions from '../pages/Transactions'
 import Budgets from '../pages/Budgets'
 import Goals from '../pages/Goals'
+import Investments from '../pages/Investments'
+
 
 // El proyecto no usa react-router (no estaba instalado ni se pidió
 // agregarlo). Esto centraliza la lógica de navegación por estado:
@@ -115,6 +117,7 @@ function AppRoutes() {
           onHistory={() => goTo('history')}
           onBudgets={() => goTo('budgets')}
           onGoals={() => goTo('goals')}
+          onInvestments={() => goTo('investments')}
           onLogout={handleLogout}
         />
       )}
@@ -128,8 +131,10 @@ function AppRoutes() {
       {screen === 'history' && <Transactions onBack={() => goTo('dashboard')} />}
       {screen === 'budgets' && <Budgets onBack={() => goTo('dashboard')} />}
       {screen === 'goals' && <Goals onBack={() => goTo('dashboard')} />}
+      {screen === 'investments' && <Investments onBack={() => goTo('dashboard')} />}
     </>
   )
 }
+
 
 export default AppRoutes

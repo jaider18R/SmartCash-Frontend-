@@ -1,0 +1,316 @@
+.inversiones-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.intro-banner {
+  background: linear-gradient(135deg, rgba(23, 105, 255, 0.15), rgba(139, 92, 246, 0.15));
+  border: 1px solid rgba(91, 92, 255, 0.3);
+  border-radius: 16px;
+  padding: 1.5rem 1.8rem;
+}
+
+.intro-banner h2 {
+  font-size: 1.3rem;
+  margin: 0 0 0.5rem 0;
+  color: #fff;
+}
+
+.intro-banner p {
+  color: #b9c6d9;
+  margin: 0;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.tabs-nav {
+  display: flex;
+  gap: 0.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.5rem;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: #8da2c0;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-btn.active {
+  color: #fff;
+  background: rgba(23, 105, 255, 0.25);
+  border: 1px solid rgba(23, 105, 255, 0.5);
+}
+
+.simulator-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.8rem;
+}
+
+.sim-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.2rem;
+  align-items: end;
+  margin-bottom: 1.8rem;
+}
+
+.sim-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+.sim-item-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1.3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.sim-item-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(91, 92, 255, 0.4);
+}
+
+.sim-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.8rem;
+}
+
+.sim-item-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.sim-item-platform {
+  font-size: 0.8rem;
+  color: #78a8ff;
+}
+
+.sim-item-rate {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #10b981;
+}
+
+.sim-item-values {
+  margin: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.sim-value-row {
+  display: flex;
+  justify-content: space-between;
+  color: #94a3b8;
+}
+
+.sim-value-row.highlight {
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  padding-top: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.sim-badge-risk {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+  margin-top: 0.5rem;
+}
+
+.alert-inflation {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  color: #fbbf24;
+  font-size: 0.9rem;
+  margin-top: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.catalog-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.25s ease;
+}
+
+.catalog-card.featured {
+  border-color: rgba(91, 92, 255, 0.5);
+  background: linear-gradient(180deg, rgba(91, 92, 255, 0.08), rgba(255, 255, 255, 0.02));
+  box-shadow: 0 10px 30px rgba(91, 92, 255, 0.15);
+}
+
+.catalog-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(91, 92, 255, 0.4);
+}
+
+.featured-tag {
+  align-self: flex-start;
+  background: linear-gradient(135deg, #1769ff, #8b5cf6);
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  margin-bottom: 0.8rem;
+}
+
+.catalog-title {
+  font-size: 1.25rem;
+  color: #fff;
+  margin: 0 0 0.3rem 0;
+}
+
+.catalog-subtitle {
+  font-size: 0.85rem;
+  color: #78a8ff;
+  margin-bottom: 1rem;
+}
+
+.catalog-desc {
+  font-size: 0.92rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+  margin-bottom: 1.2rem;
+}
+
+.catalog-details {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  margin-bottom: 1.2rem;
+}
+
+.catalog-detail-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.catalog-detail-label {
+  color: #94a3b8;
+}
+
+.catalog-detail-val {
+  color: #f1f5f9;
+  font-weight: 600;
+  text-align: right;
+}
+
+.catalog-action-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.8rem;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 0.9rem;
+  color: #fff;
+  background: linear-gradient(135deg, #1769ff, #5b5cff);
+  transition: opacity 0.2s ease;
+}
+
+.catalog-action-btn:hover {
+  opacity: 0.9;
+}
+
+.educational-guide {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.guide-step-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1.4rem;
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+.guide-step-num {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1769ff, #8b5cf6);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+}
+
+.guide-step-content h3 {
+  margin: 0 0 0.4rem 0;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.guide-step-content p {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
