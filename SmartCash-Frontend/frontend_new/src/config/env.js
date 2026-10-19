@@ -7,5 +7,7 @@ export const API = {
   PRESUPUESTOS: '/api/presupuestos',
   METAS: '/api/metas-ahorro',
   ANALITICA: '/api/analitica',
+  OCR: '/api/ocr',
 }
+
 

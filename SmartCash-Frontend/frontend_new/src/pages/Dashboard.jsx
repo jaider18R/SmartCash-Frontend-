@@ -87,16 +87,16 @@ function Dashboard({ onTransaction, onHistory, onBudgets, onGoals, onInvestments
 
         <div className="dashboard-grid">
 
-          <div className="info-card">
+          <div className="info-card" onClick={onTransaction} style={{ cursor: 'pointer' }}>
 
             <div className="info-icon blue">
-              +
+              📸
             </div>
 
             <div>
-              <h3>Registrar movimiento</h3>
+              <h3>Escáner OCR de Facturas</h3>
               <p>
-                Añade un ingreso o gasto de manera rápida.
+                Toma foto o sube tu factura: extrae datos en RAM y registra el gasto sin guardar imágenes.
               </p>
             </div>
 
@@ -109,9 +109,9 @@ function Dashboard({ onTransaction, onHistory, onBudgets, onGoals, onInvestments
             </div>
 
             <div>
-              <h3>Categorización</h3>
+              <h3>Categorización IA</h3>
               <p>
-                El backend analiza automáticamente el comercio.
+                El modelo de Machine Learning clasifica automáticamente el comercio y detecta gastos inusuales.
               </p>
             </div>
 

@@ -1,13 +1,12 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { registrarTransaccion } from '../services/transaccionesService'
+import { escanearFacturaEnMemoria } from '../services/ocrService'
 import { useCategorias } from '../hooks/useCategorias'
-import { getUserIdFromToken } from '../utils/helpers'
+import { getUserIdFromToken, formatCOP } from '../utils/helpers'
 import Logo from '../components/Logo'
 import './Transaction.css'
 
-// Antes recibía "token" como prop; ahora lo toma directamente del
-// AuthContext con useAuth().
 function Transaction({ onBack, onSaved }) {
 
   const { token } = useAuth()
@@ -25,51 +24,99 @@ function Transaction({ onBack, onSaved }) {
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(false)
 
-  async function handleSubmit(event) {
+  const [escaneando, setEscaneando] = useState(false)
+  const [registroAutomatico, setRegistroAutomatico] = useState(true)
+  const [infoOcr, setInfoOcr] = useState(null)
 
+  const inputCamaraRef = useRef(null)
+  const inputArchivoRef = useRef(null)
+
+  async function guardarMovimiento({ montoVal, fechaVal, comercioVal, tipoVal }) {
+    const idUsuario = getUserIdFromToken(token)
+    if (!idUsuario) {
+      throw new Error('No fue posible identificar al usuario de la sesión.')
+    }
+
+    const creada = await registrarTransaccion(token, {
+      idUsuario,
+      monto: Number(montoVal),
+      fecha: fechaVal,
+      comercio: comercioVal,
+      tipoMovimiento: tipoVal,
+    })
+
+    setResultado(creada)
+    setSuccess('Movimiento registrado correctamente.')
+    setMonto('')
+    setComercio('')
+    return creada
+  }
+
+  async function handleArchivoFactura(event) {
+    const file = event.target.files?.[0]
+    event.target.value = ''
+    if (!file) return
+
+    setError('')
+    setSuccess('')
+    setInfoOcr(null)
+    setEscaneando(true)
+
+    try {
+      const datos = await escanearFacturaEnMemoria(file)
+      const nuevoComercio = datos.comercio || 'Comercio Factura'
+      const nuevoMonto = datos.monto && Number(datos.monto) > 0 ? String(datos.monto) : ''
+      const nuevaFecha = datos.fecha || new Date().toISOString().split('T')[0]
+      const nuevoTipo = datos.tipo_movimiento || 'gasto'
+
+      setComercio(nuevoComercio)
+      if (nuevoMonto) setMonto(nuevoMonto)
+      setFecha(nuevaFecha)
+      setTipoMovimiento(nuevoTipo)
+      setInfoOcr(datos)
+
+      if (registroAutomatico && Number(datos.monto) > 0) {
+        setLoading(true)
+        await guardarMovimiento({
+          montoVal: datos.monto,
+          fechaVal: nuevaFecha,
+          comercioVal: nuevoComercio,
+          tipoVal: nuevoTipo,
+        })
+        setSuccess(
+          `Factura de "${nuevoComercio}" por ${formatCOP(datos.monto)} escaneada y registrada automáticamente (imagen descartada de memoria).`
+        )
+      } else if (!Number(datos.monto)) {
+        setError(
+          'Detectamos el comercio de la factura, pero el total no fue legible con claridad. Ingresa el monto manualmente y presiona Guardar.'
+        )
+      }
+    } catch (err) {
+      setError(err.message || 'No fue posible procesar la imagen de la factura.')
+    } finally {
+      setEscaneando(false)
+      setLoading(false)
+    }
+  }
+
+  async function handleSubmit(event) {
     event.preventDefault()
 
     setError('')
     setSuccess('')
     setLoading(true)
 
-    const idUsuario = getUserIdFromToken(token)
-
-    if (!idUsuario) {
-
-      setError(
-        'No fue posible identificar al usuario de la sesión.'
-      )
-
-      setLoading(false)
-
-      return
-    }
-
     try {
-      const creada = await registrarTransaccion(token, {
-        idUsuario,
-        monto: Number(monto),
-        fecha,
-        comercio,
-        tipoMovimiento,
+      await guardarMovimiento({
+        montoVal: monto,
+        fechaVal: fecha,
+        comercioVal: comercio,
+        tipoVal: tipoMovimiento,
       })
-
-      setResultado(creada)
-      setSuccess('Movimiento registrado correctamente.')
-
-      setMonto('')
-      setComercio('')
-
-
-    } catch (error) {
-
-      setError(error.message)
-
+    } catch (err) {
+      setError(err.message)
     } finally {
-
       setLoading(false)
-
     }
   }
 
@@ -94,7 +141,7 @@ function Transaction({ onBack, onSaved }) {
         <div className="transaction-intro">
 
           <span className="section-label">
-            MOVIMIENTOS
+            MOVIMIENTOS E IA
           </span>
 
           <h1>
@@ -103,12 +150,12 @@ function Transaction({ onBack, onSaved }) {
           </h1>
 
           <p>
-            Registra el movimiento y SmartCash se encargará
-            de procesarlo y categorizarlo.
+            Escanea una factura con tu cámara o registra el movimiento manualmente.
+            SmartCash extrae únicamente los datos y descarta la foto al instante para no ocupar espacio.
           </p>
 
           <div className="transaction-decoration">
-            <span>$</span>
+            <span>📸</span>
             <span>$</span>
             <span>🔥</span>
           </div>
@@ -125,9 +172,86 @@ function Transaction({ onBack, onSaved }) {
 
             <div>
               <h2>Registrar movimiento</h2>
-              <p>Completa la información del movimiento.</p>
+              <p>Escanea tu recibo o completa la información.</p>
             </div>
 
+          </div>
+
+          <div className="ocr-scanner-box">
+            <div className="ocr-header-row">
+              <div className="ocr-title-group">
+                <span>📸</span>
+                <strong>Escáner Inteligente de Facturas</strong>
+              </div>
+              <span className="zero-storage-badge">Zero-Storage (Sin guardar fotos)</span>
+            </div>
+
+            <p className="ocr-desc">
+              Toma una foto o sube la imagen de tu tirilla o factura. Extraemos comercio, fecha y total en memoria RAM sin almacenar la imagen.
+            </p>
+
+            <input
+              ref={inputCamaraRef}
+              type="file"
+              accept="image/*"
+              capture="environment"
+              style={{ display: 'none' }}
+              onChange={handleArchivoFactura}
+            />
+
+            <input
+              ref={inputArchivoRef}
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleArchivoFactura}
+            />
+
+            <div className="ocr-actions-row">
+              <button
+                type="button"
+                className="ocr-btn"
+                disabled={escaneando || loading}
+                onClick={() => inputCamaraRef.current?.click()}
+              >
+                {escaneando ? '⏳ Analizando factura...' : '📷 Tomar foto'}
+              </button>
+
+              <button
+                type="button"
+                className="ocr-btn"
+                disabled={escaneando || loading}
+                onClick={() => inputArchivoRef.current?.click()}
+              >
+                {escaneando ? '⏳ Procesando en RAM...' : '🖼️ Subir imagen de factura'}
+              </button>
+            </div>
+
+            <label className="ocr-auto-toggle">
+              <input
+                type="checkbox"
+                checked={registroAutomatico}
+                onChange={(e) => setRegistroAutomatico(e.target.checked)}
+              />
+              Registrar automáticamente al terminar de escanear la factura
+            </label>
+
+            {infoOcr && (
+              <div className="ocr-result-banner">
+                <strong>Datos extraídos de la factura (imagen eliminada):</strong>
+                <div>
+                  • Comercio: <strong>{infoOcr.comercio}</strong>
+                  {infoOcr.nit ? ` (NIT: ${infoOcr.nit})` : ''}
+                </div>
+                <div>
+                  • Monto detectado: <strong>{infoOcr.monto > 0 ? formatCOP(infoOcr.monto) : 'Pendiente por confirmar'}</strong>
+                  {' '}| Fecha: <strong>{infoOcr.fecha}</strong>
+                </div>
+                <div>
+                  • Pre-clasificación IA: <strong>{infoOcr.categoria_sugerida}</strong> ({Math.round((infoOcr.nivel_confianza || 0) * 100)}% confianza)
+                </div>
+              </div>
+            )}
           </div>
 
           <form onSubmit={handleSubmit}>
@@ -252,7 +376,7 @@ function Transaction({ onBack, onSaved }) {
 
             <button
               className="main-button full-button"
-              disabled={loading}
+              disabled={loading || escaneando}
             >
               {loading
                 ? 'Registrando...'

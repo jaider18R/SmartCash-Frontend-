@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
         '/api/presupuestos': { target: tx, changeOrigin: true },
         '/api/metas-ahorro': { target: tx, changeOrigin: true },
         '/api/analitica': { target: env.VITE_PROXY_ANALITICA || 'http://localhost:8084', changeOrigin: true },
+        '/api/ocr': { target: env.VITE_PROXY_CATEGORIZACION || 'http://localhost:8000', changeOrigin: true, rewrite: quitarApi },
       },
     },
     test: { environment: 'node', include: ['src/**/*.test.js'] },
