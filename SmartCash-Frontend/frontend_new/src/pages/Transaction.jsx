@@ -25,7 +25,7 @@ function Transaction({ onBack, onSaved }) {
   const [loading, setLoading] = useState(false)
 
   const [escaneando, setEscaneando] = useState(false)
-  const [registroAutomatico, setRegistroAutomatico] = useState(true)
+  const [registroAutomatico, setRegistroAutomatico] = useState(false)
   const [infoOcr, setInfoOcr] = useState(null)
 
   const inputCamaraRef = useRef(null)
@@ -86,7 +86,11 @@ function Transaction({ onBack, onSaved }) {
         setSuccess(
           `Factura de "${nuevoComercio}" por ${formatCOP(datos.monto)} escaneada y registrada automáticamente (imagen descartada de memoria).`
         )
-      } else if (!Number(datos.monto)) {
+      } else if (Number(datos.monto) > 0) {
+        setSuccess(
+          `Factura leída: detectamos "${nuevoComercio}" por ${formatCOP(datos.monto)}. Revisa los datos en el formulario y pulsa "Guardar transacción" para confirmar.`
+        )
+      } else {
         setError(
           'Detectamos el comercio de la factura, pero el total no fue legible con claridad. Ingresa el monto manualmente y presiona Guardar.'
         )
@@ -250,6 +254,11 @@ function Transaction({ onBack, onSaved }) {
                 <div>
                   • Pre-clasificación IA: <strong>{infoOcr.categoria_sugerida}</strong> ({Math.round((infoOcr.nivel_confianza || 0) * 100)}% confianza)
                 </div>
+                {!registroAutomatico && (
+                  <div style={{ marginTop: '0.6rem', color: '#166534', fontWeight: 600 }}>
+                    ✍️ Hemos cargado los datos en el formulario abajo. Revisa o ajusta lo que desees y presiona "Guardar transacción".
+                  </div>
+                )}
               </div>
             )}
           </div>
