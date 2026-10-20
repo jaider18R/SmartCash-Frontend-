@@ -26,7 +26,7 @@ export async function apiFetch(url, { method = 'GET', body, auth = true } = {}) 
   try { data = text ? JSON.parse(text) : null } catch { data = null }
 
   if (!response.ok) {
-    throw new Error(data?.error || data?.mensaje || `Error ${response.status} del servidor`)
+    throw new Error(data?.error || data?.mensaje || (typeof data?.detail === 'string' ? data.detail : null) || `Error ${response.status} del servidor`)
   }
   return data
 }

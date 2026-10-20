@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import PageShell from '../components/PageShell'
+import MoneyInput from '../components/MoneyInput'
 import { useCategorias } from '../hooks/useCategorias'
 import { listarPresupuestos, guardarPresupuesto } from '../services/presupuestosService'
 import { listarTransacciones } from '../services/transaccionesService'
@@ -56,7 +57,7 @@ export default function Budgets({ onBack }) {
             {categorias.map((c) => <option key={c.idCategoria} value={c.idCategoria}>{c.nombre}</option>)}
           </select></div>
         <div className="input-group"><label>Límite (COP)</label>
-          <input type="number" min="1" step="1" value={monto} onChange={(e) => setMonto(e.target.value)} required /></div>
+          <MoneyInput value={monto} onChange={setMonto} placeholder="Ej: 500.000" required /></div>
         <button className="small-button">Guardar presupuesto</button>
       </form>
 
@@ -64,7 +65,7 @@ export default function Budgets({ onBack }) {
       {ok && <div className="success-message">{ok}</div>}
       {cargando && <p className="muted">Cargando...</p>}
       {!cargando && (
-        <div style={{ marginBottom: '1rem', color: '#64748b', fontSize: '0.9rem' }}>
+        <div style={{ marginBottom: '1rem', color: 'var(--muted)', fontSize: '0.9rem' }}>
           Vigencia del periodo: <strong>{new Date(anio, mes - 1, 1).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' })}</strong> al <strong>{new Date(anio, mes, 0).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' })}</strong>
         </div>
       )}
@@ -82,7 +83,7 @@ export default function Budgets({ onBack }) {
               <div className="row-item" style={{ padding: 0, background: 'none' }}>
                 <div>
                   <strong>{p.nombreCategoria}</strong>
-                  <div style={{ fontSize: '0.8rem', color: '#64748b' }}>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>
                     Periodo: {inicio} al {fin}
                   </div>
                 </div>

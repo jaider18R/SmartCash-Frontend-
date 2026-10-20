@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import PageShell from '../components/PageShell'
+import MoneyInput from '../components/MoneyInput'
 import { formatCOP } from '../utils/helpers'
 import { obtenerCatalogoInversiones, simularInversiones } from '../services/inversionesService'
 import './Investments.css'
@@ -39,7 +40,7 @@ export default function Investments({ onBack }) {
         const res = await simularInversiones(val, Number(plazo))
         setSimulacion(res)
         setError('')
-      } catch (err) {
+      } catch {
         setError('No fue posible calcular la simulación.')
       } finally {
         setCargandoSimulacion(false)
@@ -91,12 +92,10 @@ export default function Investments({ onBack }) {
             <div className="sim-form-grid">
               <div className="input-group">
                 <label>Monto a invertir (COP)</label>
-                <input 
-                  type="number" 
-                  min="50000" 
-                  step="50000" 
-                  value={monto} 
-                  onChange={(e) => setMonto(e.target.value)} 
+                <MoneyInput
+                  value={monto}
+                  onChange={setMonto}
+                  placeholder="Ej: 1.000.000"
                 />
               </div>
 
@@ -132,7 +131,7 @@ export default function Investments({ onBack }) {
                             <div className="sim-item-title">{p.nombre_producto}</div>
                             <div className="sim-item-platform">{p.plataforma}</div>
                           </div>
-                          <div className="sim-item-rate">~{p.tasa_ea_estimada}% <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>E.A.</span></div>
+                          <div className="sim-item-rate">~{p.tasa_ea_estimada}% <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>E.A.</span></div>
                         </div>
 
                         <p style={{ fontSize: '0.85rem', color: '#cbd5e1', margin: '0.5rem 0' }}>
@@ -163,7 +162,7 @@ export default function Investments({ onBack }) {
                 </div>
 
                 {simulacion.recomendacion_perfil && (
-                  <div style={{ marginTop: '1.5rem', padding: '1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '10px', fontSize: '0.9rem', color: '#94a3b8' }}>
+                  <div style={{ marginTop: '1.5rem', padding: '1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '10px', fontSize: '0.9rem', color: 'var(--muted)' }}>
                     💡 <strong>Consejo SmartCash:</strong> {simulacion.recomendacion_perfil}
                   </div>
                 )}

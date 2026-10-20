@@ -170,11 +170,33 @@
 }
 
 .input-group input::placeholder {
-  color: #65748c;
+  color: #8a9bb5;
 }
 
-.input-group select option {
-  color: #111;
+/* Menús desplegables: fondo de la paleta y letra clara SIEMPRE visible
+   (antes la letra era #111 sobre fondo oscuro y solo se veía al pasar el mouse). */
+select {
+  color-scheme: dark;
+}
+
+select option,
+select optgroup {
+  background-color: var(--dark-2);
+  color: var(--white);
+}
+
+select option:checked {
+  background-color: var(--blue);
+  color: #fff;
+}
+
+select option:disabled {
+  color: var(--muted);
+}
+
+input::placeholder {
+  color: #8a9bb5;
+  opacity: 1;
 }
 
 /* ---- Mensajes de error / éxito ---- */

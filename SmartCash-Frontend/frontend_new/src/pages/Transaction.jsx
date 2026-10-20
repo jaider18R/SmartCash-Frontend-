@@ -5,6 +5,7 @@ import { escanearFacturaEnMemoria } from '../services/ocrService'
 import { useCategorias } from '../hooks/useCategorias'
 import { getUserIdFromToken, formatCOP } from '../utils/helpers'
 import Logo from '../components/Logo'
+import MoneyInput from '../components/MoneyInput'
 import './Transaction.css'
 
 function Transaction({ onBack, onSaved }) {
@@ -65,7 +66,7 @@ function Transaction({ onBack, onSaved }) {
     try {
       const datos = await escanearFacturaEnMemoria(file)
       const nuevoComercio = datos.comercio || 'Comercio Factura'
-      const nuevoMonto = datos.monto && Number(datos.monto) > 0 ? String(datos.monto) : ''
+      const nuevoMonto = datos.monto && Number(datos.monto) > 0 ? String(Math.round(Number(datos.monto))) : ''
       const nuevaFecha = datos.fecha || new Date().toISOString().split('T')[0]
       const nuevoTipo = datos.tipo_movimiento || 'gasto'
 
@@ -255,7 +256,7 @@ function Transaction({ onBack, onSaved }) {
                   • Pre-clasificación IA: <strong>{infoOcr.categoria_sugerida}</strong> ({Math.round((infoOcr.nivel_confianza || 0) * 100)}% confianza)
                 </div>
                 {!registroAutomatico && (
-                  <div style={{ marginTop: '0.6rem', color: '#166534', fontWeight: 600 }}>
+                  <div style={{ marginTop: '0.6rem', color: 'var(--green)', fontWeight: 600 }}>
                     ✍️ Hemos cargado los datos en el formulario abajo. Revisa o ajusta lo que desees y presiona "Guardar transacción".
                   </div>
                 )}
@@ -273,15 +274,10 @@ function Transaction({ onBack, onSaved }) {
 
                 <span>$</span>
 
-                <input
-                  type="number"
-                  min="0.01"
-                  step="0.01"
+                <MoneyInput
                   value={monto}
-                  onChange={(event) =>
-                    setMonto(event.target.value)
-                  }
-                  placeholder="0.00"
+                  onChange={setMonto}
+                  placeholder="0"
                   required
                 />
 

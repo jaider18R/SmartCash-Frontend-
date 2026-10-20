@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import PageShell from '../components/PageShell'
+import MoneyInput from '../components/MoneyInput'
 import ConfirmDialog from '../components/ConfirmDialog'
 import { useCategorias } from '../hooks/useCategorias'
 import { listarTransacciones, actualizarTransaccion, eliminarTransaccion } from '../services/transaccionesService'
@@ -93,7 +94,7 @@ export default function Transactions({ onBack }) {
                 {t.tipoMovimiento === 'gasto' ? '-' : '+'}{formatCOP(t.monto)}
               </span>
               <div className="row-actions">
-                <button className="ghost-button" onClick={() => setEditando({ ...t })}>Editar</button>
+                <button className="ghost-button" onClick={() => setEditando({ ...t, monto: String(Math.round(Number(t.monto))) })}>Editar</button>
                 <button className="danger-button" onClick={() => setABorrar(t)}>Eliminar</button>
               </div>
             </div>
@@ -108,7 +109,7 @@ export default function Transactions({ onBack }) {
             <div className="input-group"><label>Comercio</label>
               <input value={editando.comercio} onChange={(e) => setEditando({ ...editando, comercio: e.target.value })} required /></div>
             <div className="input-group"><label>Monto</label>
-              <input type="number" min="0.01" step="0.01" value={editando.monto} onChange={(e) => setEditando({ ...editando, monto: e.target.value })} required /></div>
+              <MoneyInput value={editando.monto} onChange={(v) => setEditando({ ...editando, monto: v })} required /></div>
             <div className="input-group"><label>Fecha</label>
               <input type="date" value={editando.fecha} onChange={(e) => setEditando({ ...editando, fecha: e.target.value })} required /></div>
             <div className="input-group"><label>Tipo</label>

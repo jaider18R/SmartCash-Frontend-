@@ -11,6 +11,7 @@ import Transactions from '../pages/Transactions'
 import Budgets from '../pages/Budgets'
 import Goals from '../pages/Goals'
 import Investments from '../pages/Investments'
+import Analytics from '../pages/Analytics'
 
 
 // El proyecto no usa react-router (no estaba instalado ni se pidió
@@ -118,6 +119,7 @@ function AppRoutes() {
           onBudgets={() => goTo('budgets')}
           onGoals={() => goTo('goals')}
           onInvestments={() => goTo('investments')}
+          onAnalytics={() => goTo('analytics')}
           onLogout={handleLogout}
         />
       )}
@@ -132,6 +134,7 @@ function AppRoutes() {
       {screen === 'budgets' && <Budgets onBack={() => goTo('dashboard')} />}
       {screen === 'goals' && <Goals onBack={() => goTo('dashboard')} />}
       {screen === 'investments' && <Investments onBack={() => goTo('dashboard')} />}
+      {screen === 'analytics' && <Analytics onBack={() => goTo('dashboard')} />}
     </>
   )
 }

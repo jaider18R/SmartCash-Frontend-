@@ -130,7 +130,7 @@
 .sim-value-row {
   display: flex;
   justify-content: space-between;
-  color: #94a3b8;
+  color: var(--muted);
 }
 
 .sim-value-row.highlight {
@@ -243,7 +243,7 @@
 }
 
 .catalog-detail-label {
-  color: #94a3b8;
+  color: var(--muted);
 }
 
 .catalog-detail-val {
@@ -310,7 +310,7 @@
 
 .guide-step-content p {
   margin: 0;
-  color: #94a3b8;
+  color: var(--muted);
   font-size: 0.92rem;
   line-height: 1.5;
 }

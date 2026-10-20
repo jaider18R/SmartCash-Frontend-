@@ -47,3 +47,17 @@ export function gastoPorCategoria(transacciones, mes, anio) {
   })
   return totales
 }
+
+// ---- Campos de dinero (pesos colombianos) ----
+// Deja solo los dígitos de lo que escribe la persona ("1.250abc" -> "1250").
+export function soloDigitos(texto) {
+  return String(texto ?? '').replace(/\D/g, '').replace(/^0+(?=\d)/, '')
+}
+
+// Pone el punto de los miles al mostrar: "10000" -> "10.000".
+// Si llega un decimal del servidor ("25000.00") se redondea a pesos enteros.
+export function formatMiles(valor) {
+  let s = String(valor ?? '')
+  if (/^\d+\.\d+$/.test(s)) s = String(Math.round(Number(s)))
+  return soloDigitos(s).replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}

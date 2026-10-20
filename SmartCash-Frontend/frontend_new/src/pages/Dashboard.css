@@ -32,7 +32,7 @@
 
 .user-info span {
   font-size: 10px;
-  color: #7f8da5;
+  color: var(--muted);
 }
 
 .user-info strong {
@@ -46,7 +46,7 @@
 
   background: transparent;
 
-  color: #aebbd0;
+  color: #c3cfe2;
 
   padding: 9px 13px;
 

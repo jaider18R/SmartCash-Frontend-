@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import PageShell from '../components/PageShell'
 import ConfirmDialog from '../components/ConfirmDialog'
+import MoneyInput from '../components/MoneyInput'
 import { listarMetas, crearMeta, abonarMeta, retirarMeta, eliminarMeta } from '../services/metasService'
 import { formatCOP } from '../utils/helpers'
 
@@ -48,7 +49,7 @@ export default function Goals({ onBack }) {
         <div className="input-group"><label>Descripción</label>
           <input value={form.descripcion} onChange={(e) => setForm({ ...form, descripcion: e.target.value })} /></div>
         <div className="input-group"><label>Objetivo (COP)</label>
-          <input type="number" min="1" value={form.montoObjetivo} onChange={(e) => setForm({ ...form, montoObjetivo: e.target.value })} required /></div>
+          <MoneyInput value={form.montoObjetivo} onChange={(v) => setForm({ ...form, montoObjetivo: v })} placeholder="Ej: 2.000.000" required /></div>
         <div className="input-group"><label>Fecha límite</label>
           <input type="date" value={form.fechaLimite} onChange={(e) => setForm({ ...form, fechaLimite: e.target.value })} /></div>
         <button className="small-button">Crear meta</button>
@@ -72,8 +73,8 @@ export default function Goals({ onBack }) {
               <div className={`progress ${completa ? 'nivel-verde' : ''}`}><span style={{ width: `${Math.min(pct, 100)}%`, background: completa ? undefined : 'var(--blue)' }} /></div>
               {m.fechaLimite && <p className="muted">Fecha límite: {m.fechaLimite}</p>}
               <div className="row-item" style={{ padding: 0, background: 'none' }}>
-                <input style={{ maxWidth: 160 }} type="number" min="1" placeholder="Monto" value={montos[m.idMeta] || ''}
-                  onChange={(e) => setMontos({ ...montos, [m.idMeta]: e.target.value })} />
+                <MoneyInput style={{ maxWidth: 160 }} placeholder="Monto" value={montos[m.idMeta] || ''}
+                  onChange={(v) => setMontos({ ...montos, [m.idMeta]: v })} />
                 <div className="row-actions">
                   <button className="small-button" onClick={() => mover(m, abonarMeta)}>Abonar</button>
                   <button className="ghost-button" onClick={() => mover(m, retirarMeta)}>Retirar</button>
