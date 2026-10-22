@@ -1,23 +1,15 @@
+import MascotMark from './mascot/MascotMark'
 import './Logo.css'
 
-
+// Logo de SmartCash: la cabeza de Chigüi con su moneda + el nombre.
 function Logo() {
   return (
     <div className="logo">
-
-      <div className="logo-coin">
-        <span>$</span>
-      </div>
-
+      <MascotMark />
       <div className="logo-text">
         <strong>Smart</strong>
         <span>Cash</span>
       </div>
-
-      <div className="logo-flame">
-
-      </div>
-
     </div>
   )
 }

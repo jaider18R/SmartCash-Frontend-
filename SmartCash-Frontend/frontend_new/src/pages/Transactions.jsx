@@ -52,7 +52,14 @@ export default function Transactions({ onBack }) {
   }
 
   return (
-    <PageShell etiqueta="HISTORIAL" titulo="Mis transacciones" onBack={onBack}>
+    <PageShell
+      etiqueta="Historial"
+      titulo="Mis transacciones"
+      descripcion="Filtra, corrige la categoría y revisa cada movimiento que has registrado."
+      pose="historial"
+      imagen="monedas"
+      onBack={onBack}
+    >
       <form className="panel grid-form" onSubmit={(e) => { e.preventDefault(); recargar(filtros) }}>
         <div className="input-group"><label>Tipo</label>
           <select value={filtros.tipo} onChange={set('tipo')}>

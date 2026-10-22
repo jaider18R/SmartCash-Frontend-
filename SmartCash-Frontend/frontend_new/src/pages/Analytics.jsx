@@ -60,7 +60,14 @@ export default function Analytics({ onBack }) {
   const maxGasto = desglose.length ? desglose[0][1] : 0
 
   return (
-    <PageShell etiqueta="ANALÍTICA" titulo="Resumen y gasto seguro" onBack={onBack}>
+    <PageShell
+      etiqueta="Analítica"
+      titulo="Resumen y gasto seguro"
+      descripcion="Entiende tu mes, calcula cuánto puedes gastar por día y simula una compra antes de hacerla."
+      pose="analitica"
+      imagen="monedas"
+      onBack={onBack}
+    >
       <section className="panel">
         <div className="an-filtro">
           <h3>Resumen financiero mensual</h3>
@@ -92,7 +99,7 @@ export default function Analytics({ onBack }) {
               {desglose.map(([clave, valor]) => (
                 <li key={clave}>
                   <div className="an-barra-top"><span>{nombreCategoria(clave)}</span><strong>{formatCOP(valor)}</strong></div>
-                  <div className="progress nivel-verde"><span style={{ width: `${maxGasto ? (valor / maxGasto) * 100 : 0}%` }} /></div>
+                  <div className="progress nivel-naranja"><span style={{ width: `${maxGasto ? (valor / maxGasto) * 100 : 0}%` }} /></div>
                 </li>
               ))}
             </ul>
@@ -143,7 +150,7 @@ export default function Analytics({ onBack }) {
         {sim && (
           <div className="an-resultado">
             <p className={sim.es_viable ? 'an-verde an-veredicto' : 'an-rojo an-veredicto'}>
-              {sim.es_viable ? '✔ La compra es viable' : '✖ La compra no es recomendable'}
+              {sim.es_viable ? 'La compra es viable' : 'La compra no es recomendable'}
             </p>
             <div className="an-tarjetas">
               <div className="an-tarjeta"><span className="muted">Compra simulada</span><strong>{formatCOP(sim.monto_simulado)}</strong></div>

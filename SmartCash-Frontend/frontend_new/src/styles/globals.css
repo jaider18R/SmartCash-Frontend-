@@ -1,34 +1,63 @@
-/* Reset y estilos base.
-   Primera mitad: viene del antiguo src/index.css (sin cambios).
-   Segunda mitad: viene del bloque de reset que estaba al inicio de App.css. */
+/* Reset, base tipográfica y controles de formulario.
+   Los menús (select) y calendarios (date) usan SIEMPRE texto claro sobre fondo
+   oscuro para que se lean sin pasar el mouse. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 html {
   min-width: 320px;
-  min-height: 100%;
+  color-scheme: dark;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-}
-
-body,
-button,
-input,
-select {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
 button:disabled {
-  opacity: .6;
+  opacity: .55;
   cursor: not-allowed;
 }
 
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
 ::selection {
-  background: #1769ff;
-  color: white;
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 ::-webkit-scrollbar {
@@ -36,35 +65,76 @@ button:disabled {
 }
 
 ::-webkit-scrollbar-track {
-  background: #07111f;
+  background: var(--bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #263b5e;
+  background: var(--surface-3);
   border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #365987;
-}
+/* ---- Campos: texto, número, fecha y menús desplegables ---- */
 
-* {
-  box-sizing: border-box;
-}
-
-button,
 input,
 select {
-  font: inherit;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
 }
 
-button {
+input:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgb(var(--accent-rgb) / .22);
+}
+
+input::placeholder {
+  color: var(--text-faint);
+  opacity: 1;
+}
+
+input[type='checkbox'] {
+  width: auto;
+  accent-color: var(--accent);
+}
+
+/* Lista desplegable: fondo oscuro y letra crema siempre visibles */
+select option,
+select optgroup {
+  background-color: var(--surface-2);
+  color: var(--text);
+}
+
+select option:checked {
+  background-color: var(--accent);
+  color: var(--on-accent);
+}
+
+select option:disabled {
+  color: var(--text-faint);
+}
+
+/* Calendario del navegador: tema oscuro e icono visible */
+input[type='date'] {
+  color-scheme: dark;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
   cursor: pointer;
+  opacity: .9;
 }
 
-.app {
-  min-height: 100vh;
-  background: var(--dark);
-  color: var(--white);
-  font-family: 'Manrope', sans-serif;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
 }

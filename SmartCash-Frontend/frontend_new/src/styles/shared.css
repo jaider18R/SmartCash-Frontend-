@@ -1,91 +1,80 @@
-/* Estilos reutilizados por más de una página/componente.
-   Nada de esto es nuevo: son reglas que ya existían en App.css, agrupadas
-   aquí porque las usa más de un lugar (por eso no tenía sentido moverlas
-   dentro de un solo archivo de página).
-
-   Quién usa qué:
-   - .main-button / .secondary-button   -> Home, Login/Register (con .full-button), Dashboard, Transaction
-   - .back-button                       -> AuthLayout y Transaction
-   - .section-label                     -> Dashboard y Transaction (Home usa la misma regla vía .eyebrow, ver Home.css)
-   - .input-group / .amount-field label -> Input.jsx (Login/Register) y los campos de fecha/tipo en Transaction
-   - .error-message / .success-message  -> Login, Register y Transaction
-   - .mini-icon                         -> AuthLayout y Transaction
-   - .dashboard-header / .dashboard-page, .transaction-page -> Dashboard y Transaction
-*/
+/* Piezas de interfaz reutilizadas por varias pantallas: botones, formularios,
+   mensajes, paneles, listas, barras de progreso, ventanas modales y fondos con foto.
+   Lo que solo usa una pantalla vive en el CSS de esa pantalla. */
 
 /* ---- Botones ---- */
 
-.main-button {
-  border: none;
-  color: white;
-
-  padding: 15px 22px;
-  border-radius: 14px;
-
-  font-weight: 800;
-
+.main-button,
+.secondary-button,
+.small-button,
+.ghost-button,
+.danger-button,
+.back-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 22px;
-
-  background:
-    linear-gradient(
-      135deg,
-      var(--blue),
-      #5b5cff
-    );
-
-  box-shadow:
-    0 15px 40px rgba(23,105,255,.24);
-
-  transition: .25s ease;
+  gap: 10px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  transition: background-color .15s ease, border-color .15s ease, transform .15s ease;
 }
 
-.main-button:hover {
-  transform: translateY(-3px);
-  box-shadow:
-    0 20px 45px rgba(23,105,255,.38);
+.main-button,
+.small-button {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
-.main-button span {
-  font-size: 20px;
+.main-button:hover:not(:disabled),
+.small-button:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.main-button {
+  padding: 14px 22px;
+}
+
+.small-button,
+.ghost-button,
+.danger-button {
+  padding: 8px 14px;
+  font-size: .9rem;
+}
+
+.secondary-button,
+.ghost-button,
+.back-button {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--text);
 }
 
 .secondary-button {
-  padding: 15px 22px;
-  border-radius: 14px;
-
-  border: 1px solid rgba(255,255,255,.1);
-
-  color: white;
-  background: rgba(255,255,255,.04);
-
-  font-weight: 700;
-}
-
-.secondary-button:hover {
-  background: rgba(255,255,255,.08);
+  padding: 14px 22px;
 }
 
 .back-button {
-  border: none;
-  background: rgba(255,255,255,.05);
-  color: #b9c6d9;
-
-  padding: 11px 16px;
-  border-radius: 11px;
-
-  position: absolute;
-  top: 25px;
-  left: 30px;
-
-  z-index: 10;
+  padding: 9px 14px;
+  font-size: .9rem;
 }
 
+.secondary-button:hover,
+.ghost-button:hover:not(:disabled),
 .back-button:hover {
-  background: rgba(255,255,255,.09);
-  color: white;
+  background: var(--surface-2);
+  border-color: var(--text-faint);
+}
+
+.danger-button {
+  border: 1px solid var(--crimson);
+  background: var(--crimson);
+  color: #fff;
+}
+
+.danger-button:hover:not(:disabled) {
+  background: #e0113f;
 }
 
 .full-button {
@@ -93,298 +82,365 @@
   margin-top: 8px;
 }
 
-/* ---- Etiquetas de sección ---- */
+/* ---- Textos de apoyo ---- */
 
 .section-label {
-  color: #78a8ff;
-  font-size: 12px;
+  display: inline-block;
+  color: var(--gold);
+  font-size: .75rem;
   font-weight: 800;
-  letter-spacing: 1.8px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
 }
 
-/* ---- Icono pequeño circular (usado en tarjetas de Auth y Transaction) ---- */
-
-.mini-icon {
-  width: 45px;
-  height: 45px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 13px;
-
-  background: rgba(23,105,255,.15);
-
-  color: #73a5ff;
-
-  font-size: 20px;
-  font-weight: 900;
-
-  margin-bottom: 18px;
+.muted {
+  color: var(--text-muted);
+  font-size: .88rem;
 }
 
-/* ---- Campos de formulario (Input.jsx + campos manuales de Transaction) ---- */
+/* ---- Campos de formulario ---- */
 
 .input-group {
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .input-group label,
 .amount-field label {
   display: block;
-
-  margin-bottom: 8px;
-
-  color: #b7c4d8;
-
-  font-size: 12px;
+  margin-bottom: 6px;
+  color: var(--text-muted);
+  font-size: .8rem;
   font-weight: 700;
 }
 
-.input-group input,
-.input-group select,
-.amount-input input {
-  width: 100%;
-
-  border: 1px solid rgba(255,255,255,.08);
-
-  background: rgba(3,10,20,.45);
-
-  color: white;
-
-  padding: 14px 15px;
-
-  border-radius: 12px;
-
-  outline: none;
+.grid-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  align-items: end;
 }
 
-.input-group input:focus,
-.input-group select:focus,
-.amount-input input:focus {
-  border-color: #367dff;
-
-  box-shadow:
-    0 0 0 3px rgba(23,105,255,.12);
+.grid-form .input-group {
+  margin-bottom: 0;
 }
 
-.input-group input::placeholder {
-  color: #8a9bb5;
-}
-
-/* Menús desplegables: fondo de la paleta y letra clara SIEMPRE visible
-   (antes la letra era #111 sobre fondo oscuro y solo se veía al pasar el mouse). */
-select {
-  color-scheme: dark;
-}
-
-select option,
-select optgroup {
-  background-color: var(--dark-2);
-  color: var(--white);
-}
-
-select option:checked {
-  background-color: var(--blue);
-  color: #fff;
-}
-
-select option:disabled {
-  color: var(--muted);
-}
-
-input::placeholder {
-  color: #8a9bb5;
-  opacity: 1;
-}
-
-/* ---- Mensajes de error / éxito ---- */
+/* ---- Mensajes ---- */
 
 .error-message,
 .success-message {
   padding: 12px 14px;
-
-  border-radius: 11px;
-
-  font-size: 13px;
-
-  margin-bottom: 15px;
+  margin-bottom: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid;
+  font-size: .88rem;
 }
 
 .error-message {
-  color: #ffb4bc;
-  background: rgba(255,107,122,.1);
-  border: 1px solid rgba(255,107,122,.18);
+  color: #ffc2bb;
+  background: rgb(255 122 110 / .1);
+  border-color: rgb(255 122 110 / .35);
 }
 
 .success-message {
-  color: #9cf0be;
-  background: rgba(53,208,127,.1);
-  border: 1px solid rgba(53,208,127,.18);
+  color: var(--success);
+  background: rgb(147 182 168 / .12);
+  border-color: rgb(147 182 168 / .35);
 }
 
-/* ---- Fondo y header comunes a las páginas ya autenticadas ---- */
+/* ---- Paneles y listas ---- */
 
-.dashboard-page,
-.transaction-page {
-  min-height: 100vh;
-
-  background:
-    radial-gradient(
-      circle at 80% 10%,
-      rgba(23,105,255,.12),
-      transparent 25%
-    ),
-    var(--dark);
+.panel {
+  margin-bottom: 18px;
+  padding: 22px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
 }
 
-.dashboard-header {
-  height: 84px;
+.panel h2,
+.panel h3 {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+}
 
-  padding: 0 5vw;
-
+.list {
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   align-items: center;
   justify-content: space-between;
-
-  border-bottom: 1px solid rgba(255,255,255,.05);
+  padding: 14px 16px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: var(--surface-2);
 }
 
-/* ---- Animación de monedas flotantes (la usan PiggyBank.jsx y Dashboard.jsx) ---- */
-
-@keyframes floatCoin {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-15px) rotate(8deg);
-  }
+.row-item.plain {
+  padding: 0;
+  border: none;
+  background: none;
 }
 
-/* ================= RESPONSIVE (reglas compartidas) ================= */
-
-@media (max-width: 600px) {
-  .main-button,
-  .secondary-button {
-    width: 100%;
-  }
-
-  .dashboard-header {
-    padding: 0 20px;
-  }
+.row-main {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+  flex: 1 1 220px;
 }
 
-/* ================= FLUJO DE RECUPERACIÓN DE CONTRASEÑA ================= */
+.row-actions {
+  display: flex;
+  gap: 8px;
+}
 
-/* Enlace de recuperación en Login */
+.cat-dot {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  flex: none;
+  border-radius: 50%;
+  background: var(--wine-strong);
+  color: var(--text);
+  font-weight: 800;
+}
+
+.amount-gasto {
+  color: var(--danger);
+  font-weight: 800;
+}
+
+.amount-ingreso {
+  color: var(--success);
+  font-weight: 800;
+}
+
+.badge {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  color: var(--text);
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+/* ---- Barras de progreso (presupuestos y metas) ---- */
+
+.progress {
+  height: 8px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--surface-3);
+}
+
+.progress > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  transition: width .4s ease;
+}
+
+.nivel-verde > span {
+  background: var(--mint);
+}
+
+.nivel-naranja > span {
+  background: var(--ocre);
+}
+
+.nivel-rojo > span {
+  background: var(--crimson);
+}
+
+/* ---- Ventana modal ---- */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgb(10 5 8 / .72);
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* ---- Tarjetas de navegación (Dashboard) ---- */
+
+.nav-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.nav-card {
+  padding: 18px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: left;
+  transition: border-color .15s ease, transform .15s ease;
+}
+
+.nav-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.nav-card strong {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+
+/* ---- Fondos con foto: la imagen va debajo de un velo del color de la marca
+        para que el texto siempre se lea. Las imágenes están en assets/images. ---- */
+
+.photo {
+  position: relative;
+  isolation: isolate;
+  background-size: cover;
+  background-position: center;
+}
+
+.photo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgb(22 12 17 / .96) 0%, rgb(22 12 17 / .82) 52%, rgb(22 12 17 / .55) 100%);
+}
+
+.photo-monedas {
+  background-image: url('../assets/images/monedas-colombia.webp');
+}
+
+.photo-alcancia {
+  background-image: url('../assets/images/alcancia-ahorro.webp');
+  background-position: 70% 40%;
+}
+
+/* ---- Flujo de recuperación de contraseña (ForgotPassword / ResetPassword) ---- */
+
 .auth-forgot-row {
   display: flex;
   justify-content: flex-end;
-  margin-top: -6px;
-  margin-bottom: 18px;
+  margin: -6px 0 16px;
 }
 
 .auth-link-button {
-  background: none;
-  border: none;
-  color: var(--blue-light);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
   padding: 4px 0;
-  transition: color .2s ease, text-decoration .2s ease;
-  font-family: inherit;
+  border: none;
+  background: none;
+  color: var(--gold);
+  font-size: .85rem;
+  font-weight: 700;
 }
 
 .auth-link-button:hover {
-  color: #8eb5ff;
   text-decoration: underline;
 }
 
 .auth-footer-text {
+  margin-top: 20px;
   text-align: center;
-  margin-top: 22px;
-  font-size: 13px;
-  color: var(--muted);
+  color: var(--text-muted);
+  font-size: .88rem;
 }
 
 .auth-footer-text .auth-link-button {
   margin-left: 6px;
 }
 
-/* Tarjetas de estado / éxito en el flujo */
 .auth-success-card {
-  text-align: center;
   padding: 8px 0;
-}
-
-.auth-icon-badge {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 18px;
-  border-radius: 20px;
-  background: rgba(23,105,255,.15);
-  border: 1px solid rgba(23,105,255,.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-}
-
-.auth-icon-badge.success {
-  background: rgba(53,208,127,.15);
-  border-color: rgba(53,208,127,.3);
-  color: var(--green);
+  text-align: center;
 }
 
 .auth-success-card h3 {
-  font-size: 22px;
   margin: 0 0 10px;
-  color: var(--white);
+  font-size: 1.4rem;
+}
+
+.auth-icon-badge {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(var(--accent-rgb) / .4);
+  border-radius: var(--radius);
+  background: rgb(var(--accent-rgb) / .14);
+  color: var(--gold);
+  font-size: 1.6rem;
+}
+
+.auth-icon-badge.success {
+  border-color: rgb(147 182 168 / .45);
+  background: rgb(147 182 168 / .14);
+  color: var(--success);
 }
 
 .auth-instruction-text {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
+  color: var(--text-muted);
+  font-size: .92rem;
 }
 
 .auth-instruction-text strong {
-  color: var(--white);
+  color: var(--text);
   word-break: break-all;
 }
 
 .auth-notice-box {
-  background: rgba(23,105,255,.1);
-  border: 1px solid rgba(23,105,255,.2);
-  border-radius: 12px;
-  padding: 12px 16px;
-  font-size: 13px;
-  color: #9ec2ff;
-  text-align: left;
-  margin-bottom: 22px;
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: .85rem;
+  text-align: left;
 }
 
 .auth-notice-box.warning {
-  background: rgba(255,209,102,.1);
-  border-color: rgba(255,209,102,.25);
-  color: #ffd166;
+  border-color: rgb(255 179 71 / .45);
+  color: var(--warning);
 }
 
-/* Indicador visual de seguridad para nueva contraseña */
 .password-security {
-  margin-top: -4px;
-  margin-bottom: 18px;
-  background: rgba(255,255,255,.03);
-  border: 1px solid rgba(255,255,255,.07);
-  border-radius: 14px;
+  margin: -4px 0 16px;
   padding: 14px 16px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: var(--surface-2);
 }
 
 .security-meter-header {
@@ -392,16 +448,16 @@ input::placeholder {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
-  font-size: 12px;
-  color: #b7c4d8;
+  color: var(--text-muted);
+  font-size: .8rem;
   font-weight: 700;
 }
 
 .security-level-tag {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: .5px;
+  font-size: .72rem;
   font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
 }
 
 .security-bars {
@@ -414,7 +470,7 @@ input::placeholder {
 .security-bar-segment {
   height: 5px;
   border-radius: 3px;
-  background: rgba(255,255,255,.1);
+  background: var(--surface-3);
   transition: background-color .3s ease;
 }
 
@@ -423,48 +479,60 @@ input::placeholder {
 }
 
 .security-bar-segment.active-medium {
-  background: var(--yellow);
+  background: var(--gold);
 }
 
 .security-bar-segment.active-strong {
-  background: var(--green);
+  background: var(--mint);
 }
 
 .security-checklist {
-  list-style: none;
-  padding: 0;
-  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .security-check-item {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
-  color: var(--muted);
-  transition: color .2s ease;
+  color: var(--text-muted);
+  font-size: .8rem;
 }
 
 .security-check-item.valid {
-  color: #9cf0be;
+  color: var(--success);
 }
 
 .security-check-item .check-icon {
-  font-size: 13px;
-  font-weight: 800;
   width: 14px;
-  display: inline-block;
+  font-weight: 800;
 }
 
 .redirect-countdown {
-  font-size: 13px;
-  color: #8eb5ff;
-  margin-bottom: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  margin-bottom: 18px;
+  color: var(--gold);
+  font-size: .88rem;
+}
+
+@media (max-width: 600px) {
+  .main-button,
+  .secondary-button {
+    width: 100%;
+  }
+
+  .row-actions {
+    width: 100%;
+  }
+
+  .row-actions button {
+    flex: 1;
+  }
 }

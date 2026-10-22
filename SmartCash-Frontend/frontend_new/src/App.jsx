@@ -6,11 +6,9 @@ import AppRoutes from './routes/AppRoutes'
 // (AuthProvider) y deja que AppRoutes decida qué pantalla mostrar.
 function App() {
   return (
-    <div className="app">
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
-    </div>
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
   )
 }
 

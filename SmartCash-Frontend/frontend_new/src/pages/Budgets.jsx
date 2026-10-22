@@ -43,7 +43,14 @@ export default function Budgets({ onBack }) {
   const delMes = presupuestos.filter((p) => p.mes === mes && p.anio === anio)
 
   return (
-    <PageShell etiqueta="PRESUPUESTOS" titulo="Presupuestos mensuales" onBack={onBack}>
+    <PageShell
+      etiqueta="Presupuestos"
+      titulo="Presupuestos mensuales"
+      descripcion="Define un límite por categoría y mira cuánto llevas gastado este mes."
+      pose="presupuestos"
+      imagen="monedas"
+      onBack={onBack}
+    >
       <form className="panel grid-form" onSubmit={guardar}>
         <div className="input-group"><label>Mes</label>
           <select value={mes} onChange={(e) => { setCargando(true); setMes(Number(e.target.value)) }}>
@@ -65,7 +72,7 @@ export default function Budgets({ onBack }) {
       {ok && <div className="success-message">{ok}</div>}
       {cargando && <p className="muted">Cargando...</p>}
       {!cargando && (
-        <div style={{ marginBottom: '1rem', color: 'var(--muted)', fontSize: '0.9rem' }}>
+        <div style={{ marginBottom: '1rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
           Vigencia del periodo: <strong>{new Date(anio, mes - 1, 1).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' })}</strong> al <strong>{new Date(anio, mes, 0).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' })}</strong>
         </div>
       )}
@@ -80,10 +87,10 @@ export default function Budgets({ onBack }) {
           const fin = p.fechaFin || new Date(p.anio, p.mes, 0).toLocaleDateString('es-CO', { day: '2-digit', month: '2-digit', year: 'numeric' })
           return (
             <div className="panel" key={p.idPresupuesto}>
-              <div className="row-item" style={{ padding: 0, background: 'none' }}>
+              <div className="row-item plain">
                 <div>
                   <strong>{p.nombreCategoria}</strong>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
                     Periodo: {inicio} al {fin}
                   </div>
                 </div>

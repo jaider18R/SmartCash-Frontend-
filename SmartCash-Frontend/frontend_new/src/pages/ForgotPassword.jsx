@@ -38,7 +38,7 @@ function ForgotPassword({ onBack, onGoToLogin }) {
       {submitted ? (
         <div className="auth-success-card">
           <div className="auth-icon-badge">
-            ✉️
+            @
           </div>
 
           <h3>¡Correo enviado!</h3>
@@ -50,7 +50,7 @@ function ForgotPassword({ onBack, onGoToLogin }) {
           </p>
 
           <div className="auth-notice-box">
-            <span>⏱️</span>
+            <span>15 min</span>
             <span>El enlace de recuperación es válido solo durante los próximos 15 minutos.</span>
           </div>
 

@@ -42,7 +42,14 @@ export default function Goals({ onBack }) {
   }
 
   return (
-    <PageShell etiqueta="AHORRO" titulo="Metas de ahorro" onBack={onBack}>
+    <PageShell
+      etiqueta="Ahorro"
+      titulo="Metas de ahorro"
+      descripcion="Crea una meta, abona poco a poco y mira cómo avanzas hacia ella."
+      pose="metas"
+      imagen="alcancia"
+      onBack={onBack}
+    >
       <form className="panel grid-form" onSubmit={crear}>
         <div className="input-group"><label>Nombre</label>
           <input value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} required /></div>
@@ -65,14 +72,14 @@ export default function Goals({ onBack }) {
           const completa = m.estado === 'COMPLETADA'
           return (
             <div className="panel" key={m.idMeta}>
-              <div className="row-item" style={{ padding: 0, background: 'none' }}>
+              <div className="row-item plain">
                 <strong>{m.nombre} {completa && <span className="badge">✓ Completada</span>}</strong>
                 <span>{formatCOP(m.montoActual)} de {formatCOP(m.montoObjetivo)} ({pct.toFixed(0)}%)</span>
               </div>
               {m.descripcion && <p className="muted">{m.descripcion}</p>}
-              <div className={`progress ${completa ? 'nivel-verde' : ''}`}><span style={{ width: `${Math.min(pct, 100)}%`, background: completa ? undefined : 'var(--blue)' }} /></div>
+              <div className={`progress ${completa ? 'nivel-verde' : ''}`}><span style={{ width: `${Math.min(pct, 100)}%`, background: completa ? undefined : 'var(--accent)' }} /></div>
               {m.fechaLimite && <p className="muted">Fecha límite: {m.fechaLimite}</p>}
-              <div className="row-item" style={{ padding: 0, background: 'none' }}>
+              <div className="row-item plain">
                 <MoneyInput style={{ maxWidth: 160 }} placeholder="Monto" value={montos[m.idMeta] || ''}
                   onChange={(v) => setMontos({ ...montos, [m.idMeta]: v })} />
                 <div className="row-actions">

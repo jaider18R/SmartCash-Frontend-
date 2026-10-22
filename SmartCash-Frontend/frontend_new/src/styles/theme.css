@@ -1,18 +1,53 @@
-/* Variables de color (design tokens) de SmartCash.
-   Movidas tal cual desde el bloque :root que estaba al inicio de App.css. */
+/* Tokens de diseño de SmartCash (único lugar donde viven los colores).
+   Paleta: combinación de las dos paletas elegidas — vino/carmesí/naranja/amarillo
+   (paleta 1) con menta/crema/ocre/café (paleta 2). Todo el CSS usa estas variables;
+   si hay que cambiar un color, se cambia aquí. */
 
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --blue: #1769ff;
-  --blue-light: #4d8dff;
-  --dark: #07111f;
-  --dark-2: #0d1a2d;
-  --purple: #7c4dff;
-  --pink: #f4b8ff;
-  --yellow: #ffd166;
-  --green: #35d07f;
-  --white: #f8fbff;
-  --muted: #9eacc2;
-  --danger: #ff6b7a;
+  /* Fondos (de oscuro a claro) */
+  --bg: #160c11;
+  --surface: #211219;
+  --surface-2: #2d1a23;
+  --surface-3: #3b2330;
+
+  /* Líneas y bordes */
+  --line: #4a2f3a;
+  --line-soft: rgb(244 237 210 / .1);
+
+  /* Texto */
+  --text: #f4edd2;
+  --text-muted: #c0b0a1;
+  --text-faint: #96867a;
+
+  /* Acento principal (naranja) y secundario (amarillo) */
+  --accent: #f46c1c;
+  --accent-hover: #ff8238;
+  --accent-rgb: 244 108 28;
+  --on-accent: #1a0d08;
+  --gold: #fdc400;
+  --ocre: #eb9e36;
+
+  /* Colores de marca (paleta 1) */
+  --wine: #4d1d3f;
+  --wine-strong: #940540;
+  --crimson: #ca0034;
+
+  /* Colores de apoyo (paleta 2) */
+  --mint: #93b6a8;
+  --cream: #e5e6bc;
+  --brown: #5a392a;
+
+  /* Estados */
+  --success: #a9d1c1;
+  --danger: #ff7a6e;
+  --warning: #ffb347;
+
+  /* Forma y tipografía */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --font-body: 'Manrope', system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
 }

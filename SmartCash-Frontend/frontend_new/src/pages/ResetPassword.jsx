@@ -11,9 +11,9 @@ function calculateStrength(pass) {
   if (/[A-Z]/.test(pass) && /[a-z]/.test(pass)) score += 1
   if (/\d/.test(pass) || /[^A-Za-z0-9]/.test(pass)) score += 1
 
-  if (score === 1) return { score: 1, label: 'Débil', className: 'active-weak', color: '#ff6b7a' }
-  if (score === 2) return { score: 2, label: 'Aceptable', className: 'active-medium', color: '#ffd166' }
-  return { score: 3, label: 'Fuerte', className: 'active-strong', color: '#35d07f' }
+  if (score === 1) return { score: 1, label: 'Débil', className: 'active-weak', color: 'var(--danger)' }
+  if (score === 2) return { score: 2, label: 'Aceptable', className: 'active-medium', color: 'var(--gold)' }
+  return { score: 3, label: 'Fuerte', className: 'active-strong', color: 'var(--mint)' }
 }
 
 function ResetPassword({ token, onBack, onResetSuccess, onRequestNewLink }) {
@@ -90,7 +90,7 @@ function ResetPassword({ token, onBack, onResetSuccess, onRequestNewLink }) {
       >
         <div className="auth-success-card">
           <div className="auth-icon-badge warning-badge">
-            ⚠️
+            !
           </div>
 
           <h3>Token no encontrado</h3>
@@ -147,7 +147,7 @@ function ResetPassword({ token, onBack, onResetSuccess, onRequestNewLink }) {
           </p>
 
           <div className="redirect-countdown">
-            <span>🔄 Redirigiendo al inicio de sesión en {countdown} s...</span>
+            <span>Redirigiendo al inicio de sesión en {countdown} s...</span>
           </div>
 
           <button

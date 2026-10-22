@@ -4,7 +4,7 @@ import { registrarTransaccion } from '../services/transaccionesService'
 import { escanearFacturaEnMemoria } from '../services/ocrService'
 import { useCategorias } from '../hooks/useCategorias'
 import { getUserIdFromToken, formatCOP } from '../utils/helpers'
-import Logo from '../components/Logo'
+import PageShell from '../components/PageShell'
 import MoneyInput from '../components/MoneyInput'
 import './Transaction.css'
 
@@ -126,278 +126,234 @@ function Transaction({ onBack, onSaved }) {
   }
 
   return (
-    <main className="transaction-page">
+    <PageShell
+      etiqueta="Movimientos e IA"
+      titulo="Nueva transacción"
+      descripcion="Escanea una factura con tu cámara o registra el movimiento manualmente. SmartCash extrae únicamente los datos y descarta la foto al instante."
+      pose="escaner"
+      imagen="monedas"
+      onBack={onBack}
+    >
+      <div className="transaction-card">
 
-      <header className="dashboard-header">
+        <div className="transaction-card-header">
 
-        <Logo />
-
-        <button
-          className="back-button dashboard-back"
-          onClick={onBack}
-        >
-          ← Dashboard
-        </button>
-
-      </header>
-
-      <section className="transaction-wrapper">
-
-        <div className="transaction-intro">
-
-          <span className="section-label">
-            MOVIMIENTOS E IA
-          </span>
-
-          <h1>
-            Nueva
-            <span> transacción.</span>
-          </h1>
-
-          <p>
-            Escanea una factura con tu cámara o registra el movimiento manualmente.
-            SmartCash extrae únicamente los datos y descarta la foto al instante para no ocupar espacio.
-          </p>
-
-          <div className="transaction-decoration">
-            <span>📸</span>
-            <span>$</span>
-            <span>🔥</span>
+          <div>
+            <h2>Registrar movimiento</h2>
+            <p>Escanea tu recibo o completa la información.</p>
           </div>
 
         </div>
 
-        <div className="transaction-card">
-
-          <div className="transaction-card-header">
-
-            <div className="mini-icon">
-              $
+        <div className="ocr-scanner-box">
+          <div className="ocr-header-row">
+            <div className="ocr-title-group">
+              <strong>Escáner inteligente de facturas</strong>
             </div>
-
-            <div>
-              <h2>Registrar movimiento</h2>
-              <p>Escanea tu recibo o completa la información.</p>
-            </div>
-
+            <span className="zero-storage-badge">Zero-Storage (Sin guardar fotos)</span>
           </div>
 
-          <div className="ocr-scanner-box">
-            <div className="ocr-header-row">
-              <div className="ocr-title-group">
-                <span>📸</span>
-                <strong>Escáner Inteligente de Facturas</strong>
-              </div>
-              <span className="zero-storage-badge">Zero-Storage (Sin guardar fotos)</span>
-            </div>
+          <p className="ocr-desc">
+            Toma una foto o sube la imagen de tu tirilla o factura. Extraemos comercio, fecha y total en memoria RAM sin almacenar la imagen.
+          </p>
 
-            <p className="ocr-desc">
-              Toma una foto o sube la imagen de tu tirilla o factura. Extraemos comercio, fecha y total en memoria RAM sin almacenar la imagen.
-            </p>
+          <input
+            ref={inputCamaraRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            style={{ display: 'none' }}
+            onChange={handleArchivoFactura}
+          />
 
-            <input
-              ref={inputCamaraRef}
-              type="file"
-              accept="image/*"
-              capture="environment"
-              style={{ display: 'none' }}
-              onChange={handleArchivoFactura}
-            />
+          <input
+            ref={inputArchivoRef}
+            type="file"
+            accept="image/*"
+            style={{ display: 'none' }}
+            onChange={handleArchivoFactura}
+          />
 
-            <input
-              ref={inputArchivoRef}
-              type="file"
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={handleArchivoFactura}
-            />
+          <div className="ocr-actions-row">
+            <button
+              type="button"
+              className="ocr-btn"
+              disabled={escaneando || loading}
+              onClick={() => inputCamaraRef.current?.click()}
+            >
+              {escaneando ? 'Analizando factura...' : 'Tomar foto'}
+            </button>
 
-            <div className="ocr-actions-row">
-              <button
-                type="button"
-                className="ocr-btn"
-                disabled={escaneando || loading}
-                onClick={() => inputCamaraRef.current?.click()}
-              >
-                {escaneando ? '⏳ Analizando factura...' : '📷 Tomar foto'}
-              </button>
-
-              <button
-                type="button"
-                className="ocr-btn"
-                disabled={escaneando || loading}
-                onClick={() => inputArchivoRef.current?.click()}
-              >
-                {escaneando ? '⏳ Procesando en RAM...' : '🖼️ Subir imagen de factura'}
-              </button>
-            </div>
-
-            <label className="ocr-auto-toggle">
-              <input
-                type="checkbox"
-                checked={registroAutomatico}
-                onChange={(e) => setRegistroAutomatico(e.target.checked)}
-              />
-              Registrar automáticamente al terminar de escanear la factura
-            </label>
-
-            {infoOcr && (
-              <div className="ocr-result-banner">
-                <strong>Datos extraídos de la factura (imagen eliminada):</strong>
-                <div>
-                  • Comercio: <strong>{infoOcr.comercio}</strong>
-                  {infoOcr.nit ? ` (NIT: ${infoOcr.nit})` : ''}
-                </div>
-                <div>
-                  • Monto detectado: <strong>{infoOcr.monto > 0 ? formatCOP(infoOcr.monto) : 'Pendiente por confirmar'}</strong>
-                  {' '}| Fecha: <strong>{infoOcr.fecha}</strong>
-                </div>
-                <div>
-                  • Pre-clasificación IA: <strong>{infoOcr.categoria_sugerida}</strong> ({Math.round((infoOcr.nivel_confianza || 0) * 100)}% confianza)
-                </div>
-                {!registroAutomatico && (
-                  <div style={{ marginTop: '0.6rem', color: 'var(--green)', fontWeight: 600 }}>
-                    ✍️ Hemos cargado los datos en el formulario abajo. Revisa o ajusta lo que desees y presiona "Guardar transacción".
-                  </div>
-                )}
-              </div>
-            )}
+            <button
+              type="button"
+              className="ocr-btn"
+              disabled={escaneando || loading}
+              onClick={() => inputArchivoRef.current?.click()}
+            >
+              {escaneando ? 'Procesando en memoria...' : 'Subir imagen de factura'}
+            </button>
           </div>
 
-          <form onSubmit={handleSubmit}>
+          <label className="ocr-auto-toggle">
+            <input
+              type="checkbox"
+              checked={registroAutomatico}
+              onChange={(e) => setRegistroAutomatico(e.target.checked)}
+            />
+            Registrar automáticamente al terminar de escanear la factura
+          </label>
 
-            <div className="amount-field">
-
-              <label>Monto</label>
-
-              <div className="amount-input">
-
-                <span>$</span>
-
-                <MoneyInput
-                  value={monto}
-                  onChange={setMonto}
-                  placeholder="0"
-                  required
-                />
-
+          {infoOcr && (
+            <div className="ocr-result-banner">
+              <strong>Datos extraídos de la factura (imagen eliminada):</strong>
+              <div>
+                • Comercio: <strong>{infoOcr.comercio}</strong>
+                {infoOcr.nit ? ` (NIT: ${infoOcr.nit})` : ''}
               </div>
-
+              <div>
+                • Monto detectado: <strong>{infoOcr.monto > 0 ? formatCOP(infoOcr.monto) : 'Pendiente por confirmar'}</strong>
+                {' '}| Fecha: <strong>{infoOcr.fecha}</strong>
+              </div>
+              <div>
+                • Pre-clasificación IA: <strong>{infoOcr.categoria_sugerida}</strong> ({Math.round((infoOcr.nivel_confianza || 0) * 100)}% confianza)
+              </div>
+              {!registroAutomatico && (
+                <div style={{ marginTop: '0.6rem', color: 'var(--success)', fontWeight: 600 }}>
+                  Hemos cargado los datos en el formulario abajo. Revisa o ajusta lo que desees y presiona "Guardar transacción".
+                </div>
+              )}
             </div>
+          )}
+        </div>
 
-            <div className="form-row">
+        <form onSubmit={handleSubmit}>
 
-              <div className="input-group">
+          <div className="amount-field">
 
-                <label>Fecha</label>
+            <label>Monto</label>
 
-                <input
-                  type="date"
-                  value={fecha}
-                  onChange={(event) =>
-                    setFecha(event.target.value)
-                  }
-                  required
-                />
+            <div className="amount-input">
 
-              </div>
+              <span>$</span>
 
-              <div className="input-group">
-
-                <label>Tipo de movimiento</label>
-
-                <select
-                  value={tipoMovimiento}
-                  onChange={(event) =>
-                    setTipoMovimiento(event.target.value)
-                  }
-                >
-
-                  <option value="gasto">
-                    Gasto
-                  </option>
-
-                  <option value="ingreso">
-                    Ingreso
-                  </option>
-
-                </select>
-
-              </div>
-
-            </div>
-
-            <div className="input-group">
-
-              <label>Comercio</label>
-
-              <input
-                value={comercio}
-                onChange={(event) =>
-                  setComercio(event.target.value)
-                }
-                placeholder="Ej. Rappi, D1, Éxito..."
+              <MoneyInput
+                value={monto}
+                onChange={setMonto}
+                placeholder="0"
                 required
               />
 
             </div>
 
-            <div className="automatic-category">
+          </div>
 
-              <div className="automatic-icon">
-                ✦
-              </div>
+          <div className="form-row">
 
-              <div>
-                <strong>Categorización automática</strong>
+            <div className="input-group">
 
-                <span>
-                  SmartCash procesará el comercio automáticamente.
-                </span>
-              </div>
+              <label>Fecha</label>
+
+              <input
+                type="date"
+                value={fecha}
+                onChange={(event) =>
+                  setFecha(event.target.value)
+                }
+                required
+              />
 
             </div>
 
-            {error && (
-              <div className="error-message">
-                {error}
-              </div>
-            )}
+            <div className="input-group">
 
-            {success && (
-              <div className="success-message">
-                {success}
-                {resultado?.idCategoria && (
-                  <div>
-                    Categoría asignada por la IA: <strong>{porId[resultado.idCategoria]?.nombre || 'categoría no listada'}</strong>
-                    {resultado.confianzaCategorizacion != null &&
-                      ` (confianza ${(resultado.confianzaCategorizacion * 100).toFixed(0)}%)`}.
-                    {' '}Si no es correcta, puedes corregirla en el Historial.
-                  </div>
-                )}
-                <button type="button" className="ghost-button" onClick={() => onSaved?.()}>Volver al dashboard</button>
-              </div>
-            )}
+              <label>Tipo de movimiento</label>
 
-            <button
-              className="main-button full-button"
-              disabled={loading || escaneando}
-            >
-              {loading
-                ? 'Registrando...'
-                : 'Guardar transacción'
+              <select
+                value={tipoMovimiento}
+                onChange={(event) =>
+                  setTipoMovimiento(event.target.value)
+                }
+              >
+
+                <option value="gasto">
+                  Gasto
+                </option>
+
+                <option value="ingreso">
+                  Ingreso
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+          <div className="input-group">
+
+            <label>Comercio</label>
+
+            <input
+              value={comercio}
+              onChange={(event) =>
+                setComercio(event.target.value)
               }
+              placeholder="Ej. Rappi, D1, Éxito..."
+              required
+            />
 
-              {!loading && <span>✓</span>}
-            </button>
+          </div>
 
-          </form>
+          <div className="automatic-category">
 
-        </div>
+            <div>
+              <strong>Categorización automática</strong>
 
-      </section>
+              <span>
+                SmartCash procesará el comercio automáticamente.
+              </span>
+            </div>
 
-    </main>
+          </div>
+
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="success-message">
+              {success}
+              {resultado?.idCategoria && (
+                <div>
+                  Categoría asignada por la IA: <strong>{porId[resultado.idCategoria]?.nombre || 'categoría no listada'}</strong>
+                  {resultado.confianzaCategorizacion != null &&
+                    ` (confianza ${(resultado.confianzaCategorizacion * 100).toFixed(0)}%)`}.
+                  {' '}Si no es correcta, puedes corregirla en el Historial.
+                </div>
+              )}
+              <button type="button" className="ghost-button" onClick={() => onSaved?.()}>Volver al dashboard</button>
+            </div>
+          )}
+
+          <button
+            className="main-button full-button"
+            disabled={loading || escaneando}
+          >
+            {loading
+              ? 'Registrando...'
+              : 'Guardar transacción'
+            }
+
+            {!loading && <span>✓</span>}
+          </button>
+
+        </form>
+
+      </div>
+
+    </PageShell>
   )
 }
 

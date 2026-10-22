@@ -50,11 +50,18 @@ export default function Investments({ onBack }) {
   }, [monto, plazo])
 
   return (
-    <PageShell etiqueta="CRECIMIENTO FINANCIERO" titulo="Inversiones Inteligentes" onBack={onBack}>
+    <PageShell
+      etiqueta="Crecimiento financiero"
+      titulo="Inversiones inteligentes"
+      descripcion="Compara opciones reguladas en Colombia y proyecta tus rendimientos netos."
+      pose="inversiones"
+      imagen="alcancia"
+      onBack={onBack}
+    >
       <div className="inversiones-container">
         
         <div className="intro-banner">
-          <h2>Haz que tu dinero trabaje para ti en Colombia 🇨🇴</h2>
+          <h2>Haz que tu dinero trabaje para ti en Colombia</h2>
           <p>
             Conoce opciones de inversión 100% legales, reguladas por la Superintendencia Financiera de Colombia 
             o protegidas por el seguro Fogafín. Compara rendimientos, aprende sin tecnicismos y toma el control de tu futuro financiero.
@@ -66,19 +73,19 @@ export default function Investments({ onBack }) {
             className={`tab-btn ${tab === 'simulador' ? 'active' : ''}`}
             onClick={() => setTab('simulador')}
           >
-            📊 Simulador Multiactivo
+            Simulador Multiactivo
           </button>
           <button 
             className={`tab-btn ${tab === 'catalogo' ? 'active' : ''}`}
             onClick={() => setTab('catalogo')}
           >
-            📱 Plataformas y MPF Invest
+            Plataformas y MPF Invest
           </button>
           <button 
             className={`tab-btn ${tab === 'guia' ? 'active' : ''}`}
             onClick={() => setTab('guia')}
           >
-            💡 ¿Cómo empezar a invertir?
+            ¿Cómo empezar a invertir?
           </button>
         </div>
 
@@ -116,7 +123,7 @@ export default function Investments({ onBack }) {
             {simulacion && (
               <>
                 <div className="alert-inflation">
-                  <span>⚠️</span>
+                  <span>!</span>
                   <div>
                     <strong>Cuidado con dejar el dinero quieto en efectivo:</strong> Con una inflación proyectada del {simulacion.inflacion_colombia_estimada_porcentaje}% E.A., tu capital de {formatCOP(simulacion.monto_invertido)} perdería un poder adquisitivo equivalente a <strong>{formatCOP(simulacion.perdida_poder_adquisitivo_efectivo)}</strong> en este periodo.
                   </div>
@@ -131,10 +138,10 @@ export default function Investments({ onBack }) {
                             <div className="sim-item-title">{p.nombre_producto}</div>
                             <div className="sim-item-platform">{p.plataforma}</div>
                           </div>
-                          <div className="sim-item-rate">~{p.tasa_ea_estimada}% <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>E.A.</span></div>
+                          <div className="sim-item-rate">~{p.tasa_ea_estimada}% <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>E.A.</span></div>
                         </div>
 
-                        <p style={{ fontSize: '0.85rem', color: '#cbd5e1', margin: '0.5rem 0' }}>
+                        <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', margin: '0.5rem 0' }}>
                           {p.descripcion_facil}
                         </p>
 
@@ -149,7 +156,7 @@ export default function Investments({ onBack }) {
                           </div>
                           <div className="sim-value-row highlight">
                             <span>Capital + Rendimiento:</span>
-                            <span style={{ color: '#10b981' }}>{formatCOP(p.capital_final)}</span>
+                            <span style={{ color: 'var(--success)' }}>{formatCOP(p.capital_final)}</span>
                           </div>
                         </div>
                       </div>
@@ -162,8 +169,8 @@ export default function Investments({ onBack }) {
                 </div>
 
                 {simulacion.recomendacion_perfil && (
-                  <div style={{ marginTop: '1.5rem', padding: '1rem', background: 'rgba(255,255,255,0.03)', borderRadius: '10px', fontSize: '0.9rem', color: 'var(--muted)' }}>
-                    💡 <strong>Consejo SmartCash:</strong> {simulacion.recomendacion_perfil}
+                  <div style={{ marginTop: '1.5rem', padding: '1rem', background: 'var(--surface-2)', borderRadius: '10px', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                    <strong>Consejo SmartCash:</strong> {simulacion.recomendacion_perfil}
                   </div>
                 )}
               </>
@@ -189,7 +196,7 @@ export default function Investments({ onBack }) {
                 >
                   <div>
                     {item.id_opcion === 'mpf-invest' && (
-                      <span className="featured-tag">⭐ Destacado & Ecosistema Educativo</span>
+                      <span className="featured-tag">Destacado & Ecosistema Educativo</span>
                     )}
                     <h3 className="catalog-title">{item.titulo}</h3>
                     <div className="catalog-subtitle">{item.subtitulo}</div>
@@ -199,7 +206,7 @@ export default function Investments({ onBack }) {
                     <div className="catalog-details">
                       <div className="catalog-detail-item">
                         <span className="catalog-detail-label">Rendimiento ref:</span>
-                        <span className="catalog-detail-val" style={{ color: '#10b981' }}>{item.rentabilidad_estimada}</span>
+                        <span className="catalog-detail-val" style={{ color: 'var(--success)' }}>{item.rentabilidad_estimada}</span>
                       </div>
                       <div className="catalog-detail-item">
                         <span className="catalog-detail-label">Monto mínimo:</span>
