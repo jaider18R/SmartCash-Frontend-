@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import PageShell from '../components/PageShell'
 import MoneyInput from '../components/MoneyInput'
+import { useAuth } from '../context/AuthContext'
 import { useCategorias } from '../hooks/useCategorias'
 import { resumenMensual, gastoSeguro, simularGasto } from '../services/analiticaService'
+import { listarTransacciones } from '../services/transaccionesService'
 import { formatCOP } from '../utils/helpers'
+import { exportarTransaccionesCSV, imprimirReportePDF } from '../utils/exportUtils'
 import './Analytics.css'
 
 const MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
@@ -15,6 +18,7 @@ function claseNivel(nivel) {
 
 export default function Analytics({ onBack }) {
   const hoy = new Date()
+  const { user } = useAuth()
   const [mes, setMes] = useState(hoy.getMonth() + 1)
   const [anio, setAnio] = useState(hoy.getFullYear())
   const [resumen, setResumen] = useState(null)
@@ -56,6 +60,34 @@ export default function Analytics({ onBack }) {
     return porId[clave]?.nombre || (clave === 'Sin Categoria' ? 'Sin categoría' : 'Otra categoría')
   }
 
+  async function descargarMes(formato) {
+    try {
+      const mesStr = String(mes).padStart(2, '0')
+      const ultimoDia = new Date(anio, mes, 0).getDate()
+      const desde = `${anio}-${mesStr}-01`
+      const hasta = `${anio}-${mesStr}-${String(ultimoDia).padStart(2, '0')}`
+
+      const txs = await listarTransacciones({ desde, hasta })
+      if (!txs || !txs.length) {
+        setErrorResumen(`No hay movimientos registrados en ${MESES[mes - 1]} de ${anio} para exportar.`)
+        return
+      }
+
+      if (formato === 'csv') {
+        exportarTransaccionesCSV(txs, porId)
+      } else {
+        imprimirReportePDF({
+          items: txs,
+          categoriasPorId: porId,
+          filtros: { desde, hasta },
+          usuarioCorreo: user?.correo
+        })
+      }
+    } catch (err) {
+      setErrorResumen(err.message)
+    }
+  }
+
   const desglose = resumen ? Object.entries(resumen.desglose_categorias || {}).sort((a, b) => b[1] - a[1]) : []
   const maxGasto = desglose.length ? desglose[0][1] : 0
 
@@ -93,7 +125,26 @@ export default function Analytics({ onBack }) {
               <div className="an-tarjeta"><span className="muted">Tasa de ahorro</span><strong>{resumen.tasa_ahorro_porcentaje}%</strong></div>
             </div>
 
-            <h4>Gasto por categoría</h4>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '16px', flexWrap: 'wrap' }}>
+              <button 
+                type="button" 
+                className="secondary-button" 
+                onClick={() => descargarMes('csv')}
+                title="Descargar este mes en CSV para Excel"
+              >
+                📊 Exportar Mes en Excel / CSV
+              </button>
+              <button 
+                type="button" 
+                className="secondary-button" 
+                onClick={() => descargarMes('pdf')}
+                title="Descargar o imprimir reporte consolidado de este mes"
+              >
+                📄 Descargar Reporte del Mes (PDF)
+              </button>
+            </div>
+
+            <h4 style={{ marginTop: '24px' }}>Gasto por categoría</h4>
             {desglose.length === 0 && <p className="muted">No hay gastos registrados en este mes.</p>}
             <ul className="an-barras">
               {desglose.map(([clave, valor]) => (
@@ -150,7 +201,7 @@ export default function Analytics({ onBack }) {
         {sim && (
           <div className="an-resultado">
             <p className={sim.es_viable ? 'an-verde an-veredicto' : 'an-rojo an-veredicto'}>
-              {sim.es_viable ? 'La compra es viable' : 'La compra no es recomendable'}
+              {sim.es_viable ? '✔ La compra es viable' : '✖ La compra no es recomendable'}
             </p>
             <div className="an-tarjetas">
               <div className="an-tarjeta"><span className="muted">Compra simulada</span><strong>{formatCOP(sim.monto_simulado)}</strong></div>

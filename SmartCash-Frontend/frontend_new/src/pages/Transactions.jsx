@@ -2,13 +2,16 @@ import { useCallback, useEffect, useState } from 'react'
 import PageShell from '../components/PageShell'
 import MoneyInput from '../components/MoneyInput'
 import ConfirmDialog from '../components/ConfirmDialog'
+import { useAuth } from '../context/AuthContext'
 import { useCategorias } from '../hooks/useCategorias'
 import { listarTransacciones, actualizarTransaccion, eliminarTransaccion } from '../services/transaccionesService'
 import { formatCOP } from '../utils/helpers'
+import { exportarTransaccionesCSV, imprimirReportePDF } from '../utils/exportUtils'
 
 const VACIOS = { tipo: '', categoriaId: '', buscar: '', desde: '', hasta: '' }
 
 export default function Transactions({ onBack }) {
+  const { user } = useAuth()
   const { categorias, porId } = useCategorias()
   const [filtros, setFiltros] = useState(VACIOS)
   const [items, setItems] = useState([])
@@ -51,11 +54,32 @@ export default function Transactions({ onBack }) {
     catch (err) { setError(err.message); setABorrar(null) } finally { setBorrando(false) }
   }
 
+  function handleExportarCSV() {
+    try {
+      exportarTransaccionesCSV(items, porId)
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
+  function handleImprimirPDF() {
+    try {
+      imprimirReportePDF({
+        items,
+        categoriasPorId: porId,
+        filtros,
+        usuarioCorreo: user?.correo
+      })
+    } catch (err) {
+      setError(err.message)
+    }
+  }
+
   return (
     <PageShell
       etiqueta="Historial"
       titulo="Mis transacciones"
-      descripcion="Filtra, corrige la categoría y revisa cada movimiento que has registrado."
+      descripcion="Filtra, corrige la categoría, revisa cada movimiento y exporta tus reportes."
       pose="historial"
       imagen="monedas"
       onBack={onBack}
@@ -77,6 +101,26 @@ export default function Transactions({ onBack }) {
         <div className="row-actions">
           <button className="small-button" type="submit">Filtrar</button>
           <button className="ghost-button" type="button" onClick={() => { setFiltros(VACIOS); recargar(VACIOS) }}>Limpiar</button>
+          {items.length > 0 && (
+            <>
+              <button 
+                className="secondary-button" 
+                type="button" 
+                onClick={handleExportarCSV}
+                title="Descargar archivo CSV compatible con Microsoft Excel"
+              >
+                📊 Exportar Excel / CSV
+              </button>
+              <button 
+                className="secondary-button" 
+                type="button" 
+                onClick={handleImprimirPDF}
+                title="Abrir vista de impresión y guardar como PDF"
+              >
+                📄 Descargar Reporte PDF
+              </button>
+            </>
+          )}
         </div>
       </form>
 
