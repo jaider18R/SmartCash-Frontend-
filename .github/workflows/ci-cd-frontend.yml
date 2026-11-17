@@ -2,9 +2,9 @@ name: CI/CD Frontend SmartCash
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, prepoduccion ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main, master, prepoduccion ]
   workflow_dispatch:
 
 jobs:
