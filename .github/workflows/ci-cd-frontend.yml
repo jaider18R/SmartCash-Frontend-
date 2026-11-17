@@ -1,0 +1,57 @@
+name: CI/CD Frontend SmartCash
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  frontend-ci:
+    name: Lint, Tests y Build React/Vite
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: SmartCash-Frontend/frontend_new
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: SmartCash-Frontend/frontend_new/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar ESLint
+        run: npm run lint
+
+      - name: Ejecutar pruebas unitarias (Vitest)
+        run: npm test
+
+      - name: Compilar bundle de produccion (Vite)
+        run: npm run build
+
+  deploy-oracle:
+    name: Despliegue Frontend en Oracle Cloud (157.137.205.42)
+    needs: [ frontend-ci ]
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && secrets.ORACLE_SSH_KEY != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Desplegar Frontend por SSH en Oracle VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 157.137.205.42
+          username: ubuntu
+          key: ${{ secrets.ORACLE_SSH_KEY }}
+          script: |
+            cd ~/Smartcash/SmartCash-Frontend-
+            git pull origin main || git pull origin master || true
+            cd ~/Smartcash
+            docker compose up -d --build frontend
+            docker compose ps

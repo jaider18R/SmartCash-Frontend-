@@ -18,7 +18,7 @@ export async function loginRequest(correo, password) {
   const data = await response.json()
 
   if (!response.ok) {
-    throw new Error(data.error || 'Correo o contraseña incorrectos')
+    throw new Error(data.detail || data.error || 'Correo o contraseña incorrectos')
   }
 
   return data // { token, tipo }
@@ -36,7 +36,7 @@ export async function registroRequest(nombre, correo, password) {
   const data = await response.json()
 
   if (!response.ok) {
-    throw new Error(data.error || 'No fue posible crear la cuenta')
+    throw new Error(data.detail || data.error || 'No fue posible crear la cuenta')
   }
 
   return data
@@ -54,7 +54,7 @@ export async function solicitarRecuperacionRequest(correo) {
   const data = await response.json()
 
   if (!response.ok) {
-    throw new Error(data.error || 'No fue posible procesar la solicitud de recuperación')
+    throw new Error(data.detail || data.error || 'No fue posible procesar la solicitud de recuperación')
   }
 
   return data // { mensaje }
@@ -72,7 +72,7 @@ export async function restablecerPasswordRequest(token, nuevaPassword) {
   const data = await response.json()
 
   if (!response.ok) {
-    throw new Error(data.error || 'No fue posible actualizar la contraseña')
+    throw new Error(data.detail || data.error || 'No fue posible actualizar la contraseña')
   }
 
   return data // { mensaje }
